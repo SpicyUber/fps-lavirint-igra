@@ -5,7 +5,7 @@ public class Explosion : MonoBehaviour
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-        
+        Explode();
     }
 
     // Update is called once per frame
@@ -14,5 +14,7 @@ public class Explosion : MonoBehaviour
         
     }
 
-    public void Explode() { }
+    public void Explode() {
+        Debug.Log("expodiracu");
+    }
 }
