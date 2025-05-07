@@ -4,6 +4,8 @@ public class ExplosiveBarrel : MonoBehaviour
 {
     public GameObject ExplosionPrefab;
     public HealthComponent HealthComponent;
+    Explosion ExplosionScript;
+    public MeshCollider MeshCollider;
 
     void Awake()
     {
@@ -23,20 +25,25 @@ public class ExplosiveBarrel : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
+
     }
 
     public void SpawnExplosion() {
 
-        HealthComponent.enabled = false;
+        //HealthComponent.enabled = false;
 
-        if (ExplosionPrefab != null) 
-        { 
-        Instantiate(ExplosionPrefab, transform.position, Quaternion.identity);
-            //btw, explode funkcija se poziva u Startu od explode skripte
+        if (ExplosionPrefab != null)
+        {
+            MeshCollider.enabled = false;
+            Instantiate(ExplosionPrefab, transform.position, Quaternion.identity);
+            ExplosionScript = ExplosionPrefab.GetComponent<Explosion>();
+
+            //btw, explode funkcija se poziva u Startu od explode skripte, a inicijalizuje se na poziciji bureta
         }
 
-        Destroy(gameObject);
+        Destroy(this.gameObject);
+
+
 
 
     }
