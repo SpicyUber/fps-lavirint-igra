@@ -37,7 +37,7 @@ public class PlayerScript : MonoBehaviour
     void Update()
     {
         UpdateRotation();
-        UpdateHeadBob();   
+        UpdateHeadBob();
         
     }
 
@@ -50,8 +50,8 @@ public class PlayerScript : MonoBehaviour
 
     private void LateUpdate()
     {
-        UpdateCamera();
 
+        UpdateCamera();
 
 
     }
@@ -70,9 +70,10 @@ public class PlayerScript : MonoBehaviour
         _playerComponentsTransform.rotation = Quaternion.Euler(_pitch, _yaw, 0f);
     }
     private void UpdateMovement() {
+        Vector3 gravity = (!Physics.Raycast(transform.position,Vector3.down,0.5f))? new Vector3(0, -5, 0) : Vector3.zero; 
         Vector3 temp = _moveDir.y * _playerComponentsTransform.forward + _moveDir.x * _playerComponentsTransform.right;
         temp.y = 0;
-        PlayerRB.AddForce((temp).normalized * MoveSpeed, ForceMode.Impulse);
+        PlayerRB.AddForce((temp).normalized * MoveSpeed+gravity, ForceMode.Impulse);
     }
     private void UpdateCamera() {
         Camera.transform.position = CameraPositionTransform.position;
