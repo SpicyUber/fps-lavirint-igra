@@ -30,7 +30,7 @@ public class ExplosiveBarrel : MonoBehaviour
 
     public void SpawnExplosion() {
 
-        //HealthComponent.enabled = false;
+        HealthComponent.enabled = false;
 
         if (ExplosionPrefab != null)
         {
