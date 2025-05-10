@@ -13,8 +13,7 @@ public class Tentacle : MonoBehaviour
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-        //gameObject.SetActive(true); //temporary
-        Spawn(); //4 testing
+
     }
 
     // Update is called once per frame
@@ -33,13 +32,16 @@ public class Tentacle : MonoBehaviour
         float offsetRange = Random.Range(20, 150); //may need 2 tweak the 2nd num
         transform.position = new Vector3(HearthPos.position.x + (signX * offsetRange), HearthPos.position.y, HearthPos.position.z + (signZ * offsetRange));
         gameObject.SetActive(true);
+        Animator.SetTrigger("Spawn");
     }
     public void Flinch() {
+        Animator.SetTrigger("Flinch");
         AudioSource.Play();
         Particles.Play();
 
     }
     public void FakeDespawn() {
+        Animator.SetTrigger("Spawn");
         gameObject.SetActive(false);
     }
 }
