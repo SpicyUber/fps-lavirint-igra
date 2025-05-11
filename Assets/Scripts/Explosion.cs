@@ -8,6 +8,7 @@ public class Explosion : MonoBehaviour
     public AudioSource explosionAudio;
     public ExplosiveBarrel ExplosiveBarrel;
     Collider[] hitColliders;
+    Collider[] healthColliders;
     KnockbackComponent[] knockbackComps;
     HealthComponent[] healthComps;
     int currentCollider;
@@ -37,6 +38,7 @@ public class Explosion : MonoBehaviour
 
         currentCollider = -1;
         hitColliders = Physics.OverlapSphere(transform.position, 100);
+        healthColliders = Physics.OverlapSphere(transform.position, 50);
         int numberOfColliders = hitColliders.Length;
         knockbackComps = new KnockbackComponent[numberOfColliders];
         healthComps = new HealthComponent[numberOfColliders];
@@ -50,8 +52,14 @@ public class Explosion : MonoBehaviour
                 knockbackComps[currentCollider].CreateExplosion(transform.position, knockForce, 50);
 
             }
+        }
 
-            if(collider.GetComponent<HealthComponent>() != null)
+        currentCollider = -1;
+
+        foreach(var collider in healthColliders)
+        {
+            currentCollider++;
+            if (collider.GetComponent<HealthComponent>() != null)
             {
                 healthComps[currentCollider] = collider.GetComponent<HealthComponent>();
                 healthComps[currentCollider].TakeDamage(100f);

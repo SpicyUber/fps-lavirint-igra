@@ -11,6 +11,7 @@ public class HealthComponent : MonoBehaviour
     void Start()
     {
         if (GetComponent<PlayerScript>() == null) { Hud = null; }
+        TakeDamage(1);
     }
 
     // Update is called once per frame
@@ -28,7 +29,6 @@ public class HealthComponent : MonoBehaviour
         CurrentHealth = Mathf.Clamp(CurrentHealth - dmg, 0, MaxHealth);
 
         if (dmg > 0) { OnDamage.Invoke(); }
-        else
         if (CurrentHealth == 0) { OnDeath.Invoke(); }
 
     }
