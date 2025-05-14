@@ -7,7 +7,7 @@ public class Heart : MonoBehaviour
     private HealthComponent health;
 
     [Header("Visual & Audio")]
-    public GameObject heartMesh;             // Mesh objekat srca
+    public MeshRenderer heartMesh;             // Mesh objekat srca
     public Collider heartCollider;           // Fizička kolizija
     public ParticleSystem bloodParticles;    // Efekat eksplozije
     public AudioSource audioSource;
@@ -24,10 +24,11 @@ public class Heart : MonoBehaviour
         {
             health.MaxHealth = 1;
             health.CurrentHealth = 1;
-            audioSource.Play();
-           health.OnDeath.AddListener(HeartExplosion); // Fix: Use AddListener to subscribe to UnityEvent
-           health.TakeDamage(1);
             
+            health.OnDeath.AddListener(HeartExplosion); // Fix: Use AddListener to subscribe to UnityEvent
+            health.TakeDamage(1);
+            health.TakeDamage(0);
+
 
         }
 
@@ -61,13 +62,13 @@ public class Heart : MonoBehaviour
         if (audioSource != null)
         {
             Debug.Log("Audio source are not null");
-            audioSource.enabled = true;
+            
             audioSource.Play();
         }
 
         // Sakrij mesh i collider
         if (heartMesh != null)
-            heartMesh.SetActive(false);
+           heartMesh.enabled = false;
 
         if (heartCollider != null)
             heartCollider.enabled = false;
@@ -79,8 +80,7 @@ public class Heart : MonoBehaviour
         if (health != null)
             health.CurrentHealth = 1;
         if (heartMesh != null)
-            heartMesh.SetActive(true);
-
+            heartMesh.enabled= true;
         if (heartCollider != null)
             heartCollider.enabled = true;
     }

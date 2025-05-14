@@ -25,9 +25,8 @@ public class HealthComponent : MonoBehaviour
     public void TakeDamage(float dmg) {
     
         CurrentHealth = Mathf.Clamp(CurrentHealth-dmg, 0, MaxHealth);
-
-        if(dmg > 0) { OnDamage.Invoke(); } 
-        if (CurrentHealth == 0) { Debug.Log("Ulazi"); OnDeath.Invoke(); }
+        Debug.Log(CurrentHealth);
+        if (dmg > 0) { OnDamage.Invoke(); } else if (CurrentHealth == 0) { Debug.Log("Ulazi"); OnDeath.Invoke(); }
     
     }
 

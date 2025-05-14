@@ -3,10 +3,10 @@
 public class Sword : MonoBehaviour, Weapon
 {
     public Transform HurtboxCastTransform; // početna tačka napada (npr. ruka)
-    public float attackRange = 10f;         // koliko daleko "seče"
+    public float attackRange = 2f;         // koliko daleko "seče"
     public float attackRadius = 1f;      // širina sečiva
-    public int damage = 10;                // kolika šteta
-    public float attackCooldown = 4f;
+    public int damage = 50;                // kolika šteta
+    public float attackCooldown = 1f;
 
     private float nextAttackTime = 0f;
     public void Start()
