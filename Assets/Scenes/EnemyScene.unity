@@ -312,10 +312,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1de33ff557c3aca4689aa0986aa0a1b3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ChasesPlayer: 0
+  Gun: {fileID: 0}
+  ChasesPlayer: 1
   MoveSpeed: 3.5
   VisionRange: 20
-  AttackRange: 2
   Damage: 10
   hurtClip: {fileID: 8300000, guid: 65cbd40bace79594a89ae6a2b104a05d, type: 3}
   Agent: {fileID: 166160683}

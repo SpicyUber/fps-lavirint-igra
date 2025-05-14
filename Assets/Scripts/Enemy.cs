@@ -5,12 +5,12 @@ using System.Collections;
 [RequireComponent(typeof(NavMeshAgent))]
 public class Enemy : MonoBehaviour
 {
-    
+    public Gun Gun;
     public Weapon WeaponObject; 
     public bool ChasesPlayer = true;
     public float MoveSpeed = 3.5f;
     public float VisionRange = 50f;
-    public float AttackRange = 2f;
+    //public float AttackRange = 100f;
     public int Damage = 10;
     public AudioClip hurtClip;
 
@@ -28,6 +28,8 @@ public class Enemy : MonoBehaviour
 
     void Start()
     {
+        if (Gun == null)
+            Gun = GetComponentInChildren<Gun>();
         audioSource = GetComponent<AudioSource>();
 
         if (Agent == null)
@@ -171,7 +173,7 @@ public class Enemy : MonoBehaviour
     {
         if (Player == null) return;
         float dist = Vector3.Distance(transform.position, Player.transform.position);
-        if (dist <= AttackRange)
+        if (dist <= Gun.GetAttackRangeForAI())
         {
             var playerHealth = Player.GetComponent<HealthComponent>();
             if (playerHealth != null)
@@ -243,7 +245,7 @@ public class Enemy : MonoBehaviour
 
     bool PlayerInAttackRange()
     {
-        if (Player == null) return false;
-        return Vector3.Distance(transform.position, Player.transform.position) <= AttackRange;
+        if (Player == null || Gun==null) return false;
+        return Vector3.Distance(transform.position, Player.transform.position) <= Gun.GetAttackRangeForAI();
     }
 }
