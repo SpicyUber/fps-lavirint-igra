@@ -4,31 +4,33 @@ using UnityEngine.Events;
 public class HealthComponent : MonoBehaviour
 {
     //NE DIRAJ PLIZ HVALA
-    public float MaxHealth,CurrentHealth ;
+    public float MaxHealth, CurrentHealth;
     public HudScript Hud;
     public UnityEvent OnDeath, OnDamage;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-        if(GetComponent<PlayerScript>() == null) { Hud = null; }
+        if (GetComponent<PlayerScript>() == null) { Hud = null; }
+        TakeDamage(1);
     }
 
     // Update is called once per frame
     void Update()
     {
-        if(Hud != null && MaxHealth>0)
+        if (Hud != null && MaxHealth > 0)
         {
-            Hud.BloodPercent = (CurrentHealth/MaxHealth)*100;
+            Hud.BloodPercent = (CurrentHealth / MaxHealth) * 100;
         }
     }
 
-    public void TakeDamage(float dmg) {
-    
-        CurrentHealth = Mathf.Clamp(CurrentHealth-dmg, 0, MaxHealth);
+    public void TakeDamage(float dmg)
+    {
 
-        if(dmg > 0) { OnDamage.Invoke(); }else
+        CurrentHealth = Mathf.Clamp(CurrentHealth - dmg, 0, MaxHealth);
+
+        if (dmg > 0) { OnDamage.Invoke(); }
         if (CurrentHealth == 0) { OnDeath.Invoke(); }
-    
+
     }
 
     private void OnDestroy()
