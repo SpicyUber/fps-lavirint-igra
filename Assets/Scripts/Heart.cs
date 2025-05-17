@@ -1,19 +1,87 @@
-using UnityEngine;
+﻿using UnityEngine;
 
 public class Heart : MonoBehaviour
 {
+    [Header("Gameplay")]
     public Davy DavyJones;
+    private HealthComponent health;
 
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
+    [Header("Visual & Audio")]
+    public MeshRenderer heartMesh;             // Mesh objekat srca
+    public Collider heartCollider;           // Fizička kolizija
+    public ParticleSystem bloodParticles;    // Efekat eksplozije
+    public AudioSource audioSource;
+    
+
+    private Vector3 baseScale;
+    private float beatTimer = 0f;
+
     void Start()
     {
-        
+        Debug.Log("Da li uopste radi ovo?");    
+        health = GetComponent<HealthComponent>();
+        if (health != null)
+        {
+            health.MaxHealth = 1;
+            health.CurrentHealth = 1;
+            
+            health.OnDeath.AddListener(HeartExplosion); // Fix: Use AddListener to subscribe to UnityEvent
+            health.TakeDamage(1);
+            health.TakeDamage(0);
+
+
+        }
+
+        if (heartMesh != null)
+            baseScale = heartMesh.transform.localScale;
     }
 
-    // Update is called once per frame
     void Update()
     {
-        
+        AnimateHeartbeat();
     }
-    public void HeartExplosion() { }
+
+    private void AnimateHeartbeat()
+    {
+        if (heartMesh == null) return;
+
+        beatTimer += Time.deltaTime * 4f;
+        float scaleFactor = 1f + Mathf.Sin(beatTimer) * 0.05f;
+        heartMesh.transform.localScale = baseScale * scaleFactor;
+    }
+
+    public void HeartExplosion()
+    {
+
+        // Particle efekat
+        if (bloodParticles != null)
+            Debug.Log("Blood particles are not null");
+        bloodParticles.Play();
+
+        // Zvuk eksplozije
+        if (audioSource != null)
+        {
+            Debug.Log("Audio source are not null");
+            
+            audioSource.Play();
+        }
+
+        // Sakrij mesh i collider
+        if (heartMesh != null)
+           heartMesh.enabled = false;
+
+        if (heartCollider != null)
+            heartCollider.enabled = false;
+        Debug.Log("Heart exploded!");
+    }
+
+    public void ActivateHeart()
+    {
+        if (health != null)
+            health.CurrentHealth = 1;
+        if (heartMesh != null)
+            heartMesh.enabled= true;
+        if (heartCollider != null)
+            heartCollider.enabled = true;
+    }
 }
