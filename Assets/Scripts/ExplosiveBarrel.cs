@@ -47,4 +47,12 @@ public class ExplosiveBarrel : MonoBehaviour
 
 
     }
+
+    private void OnDrawGizmosSelected()
+    {
+        Gizmos.color = Color.yellow;
+        Gizmos.DrawWireSphere(transform.position, 25);
+        Gizmos.color = Color.red;
+        Gizmos.DrawWireSphere(transform.position, 12.5f);
+    }
 }

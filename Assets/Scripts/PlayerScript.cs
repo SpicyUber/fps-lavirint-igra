@@ -11,7 +11,7 @@ public class PlayerScript : MonoBehaviour
     public Rigidbody PlayerRB;
     public CinemachineCamera Camera;
     public Transform CameraPositionTransform;
-
+    public AudioSource Walking;
     public float MouseSensitivity;
     public float MoveSpeed;
 
@@ -36,8 +36,7 @@ public class PlayerScript : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        UpdateRotation();
-        UpdateHeadBob();
+       
         
     }
 
@@ -50,16 +49,19 @@ public class PlayerScript : MonoBehaviour
 
     private void LateUpdate()
     {
-
+        UpdateRotation();
+        UpdateHeadBob();
         UpdateCamera();
 
 
     }
     private void UpdateHeadBob()
-    {
-        if (_moveDir.magnitude <= 0.01f) _t = 0;
+    { if (!Physics.Raycast(transform.position, Vector3.down, 0.5f)) { Walking.Pause(); return; }
+
+
+        if (_moveDir.magnitude <= 0.01f) { _t = 0; if (Walking.isPlaying) { Walking.Pause(); } }
         CameraPositionTransform.localPosition = _startCameraPosition+new Vector3(0,Mathf.Sin(_t*8f)/32f,0);
-        if (_moveDir.magnitude >0.01f ) { _t+=Time.deltaTime; }
+        if (_moveDir.magnitude >0.01f ) { _t+=Time.deltaTime; if (!Walking.isPlaying) { Walking.Play(); } }
     }
     private void UpdateRotation()
     {
@@ -83,9 +85,9 @@ public class PlayerScript : MonoBehaviour
     public void OnLook(InputValue value) {_mouseDir = value.Get<Vector2>(); 
          
     }
-    public void OnAttack(InputValue value) { if (GunObject.UseAttack()) { GetComponentInChildren<Animator>().SetTrigger("Shoot"); RecoilCameraShake(); } }
+    public void OnAttack(InputValue value) { if (GunObject.UseAttack()) { UpdateCamera(); GetComponentInChildren<Animator>().SetTrigger("Shoot"); RecoilCameraShake(); } }
     
-    public void Death() { GetComponent<AudioSource>().Play(); if (Hud == null) return; Hud.YouDied(); }
+    public void Death() { GetComponent<Collider>().enabled = false; GetComponent<AudioSource>().Play(); if (Hud == null) return; Hud.YouDied(); }
 
     public void RecoilCameraShake() { if (Hud == null) return; Hud.RecoilCameraShake(1f); }
 

@@ -5,11 +5,12 @@ using System.Collections;
 [RequireComponent(typeof(NavMeshAgent))]
 public class Enemy : MonoBehaviour
 {
-    public Gun Gun;
+   // public Gun Gun;
     public Weapon WeaponObject; 
     public bool ChasesPlayer = true;
     public float MoveSpeed = 3.5f;
     public float VisionRange = 50f;
+    public int level = 1;
     //public float AttackRange = 100f;
     public int Damage = 10;
     public AudioClip hurtClip;
@@ -28,8 +29,21 @@ public class Enemy : MonoBehaviour
 
     void Start()
     {
-        if (Gun == null)
-            Gun = GetComponentInChildren<Gun>();
+        if (WeaponObject == null)
+            WeaponObject = GetComponentInChildren<Weapon>();
+        if (level < 1 || level > 3) level = 1;
+        //hard coding values. bad unity practice but its quicker right now then to manually go into editor.
+        MoveSpeed = 3.5f * level;
+        WeaponObject.SetCooldown(1.5f/level);
+        WeaponObject.SetWindUp(0.5f / level);
+        GetComponent<HealthComponent>().MaxHealth = 50f * level;
+        GetComponent<HealthComponent>().CurrentHealth = 50f * level;
+        transform.GetChild(1).gameObject.SetActive(false);
+        transform.GetChild(2).gameObject.SetActive(false);
+        transform.GetChild(3).gameObject.SetActive(false);
+        transform.GetChild(level).gameObject.SetActive(true);
+
+        
         audioSource = GetComponent<AudioSource>();
 
         if (Agent == null)
@@ -61,9 +75,13 @@ public class Enemy : MonoBehaviour
         }
 
         Agent.speed = MoveSpeed;
-
+        if (CanSeePlayer())
+        {
+            Debug.Log("Vidio igrača! Prelazim u CHASE");
+            TransitionTo(EnemyState.CHASE);
+        }else
         TransitionTo(EnemyState.IDLE);
-        Animator.SetTrigger("IDLE");
+       // Animator.SetTrigger("IDLE");
     }
 
     void Update()
@@ -75,7 +93,7 @@ public class Enemy : MonoBehaviour
                 if (CanSeePlayer())
                 {
                     Debug.Log("Vidio igrača! Prelazim u CHASE");
-                    TransitionTo(EnemyState.CHASE);
+                    if (ChasesPlayer) TransitionTo(EnemyState.CHASE); else StartCoroutine(AttackRoutine());
                 }
                 break;
 
@@ -113,6 +131,9 @@ public class Enemy : MonoBehaviour
     {
         Debug.Log("Prelazim u stanje: " + state);
         if (CurrentState == EnemyState.DEAD) return;
+        else if (state == EnemyState.DEAD) audioSource.PlayOneShot(audioSource.clip);
+        if ( (CurrentState == EnemyState.WINDUP  || CurrentState == EnemyState.STUNNED || CurrentState == EnemyState.DEAD) && (state == EnemyState.IDLE)) return;
+      
         CurrentState = state;
 
         switch (state)
@@ -132,39 +153,61 @@ public class Enemy : MonoBehaviour
                     Animator.SetTrigger("CHASE");
                     Debug.Log("Animacija: CHASE");
                 }
+                else
+                {
+                 //  TransitionTo(EnemyState.IDLE);
+                }
                 break;
 
             case EnemyState.DEAD:
                 Agent.isStopped = true;
-                
-                Animator.SetTrigger("DEAD");
+                 StartCoroutine(WaitOneFrameThenDeathAnimation());
+               
                 Debug.Log("Animacija: DEAD");
                 GetComponent<Collider>().enabled = false;
                 break;
+            case EnemyState.WINDUP:
+
+                transform.LookAt(Player.transform,transform.up);
+               
+                break;
         }
     }
-
+    IEnumerator WaitOneFrameThenDeathAnimation()
+    {
+        yield return null;
+        Animator.ResetTrigger("STUNNED");
+        Animator.SetTrigger("DEAD");
+    }
     IEnumerator AttackRoutine()
     {
-        if (CurrentState == EnemyState.WINDUP || CurrentState == EnemyState.WINDDOWN || CurrentState == EnemyState.STUNNED)
+        //ovde je falio uslov za DEAD. Takodje svi ovi uslovi se moraju ponavljati posle yield return-a
+        if (CurrentState == EnemyState.WINDUP || CurrentState == EnemyState.WINDDOWN || CurrentState == EnemyState.STUNNED || CurrentState == EnemyState.DEAD)
             yield break;
 
         TransitionTo(EnemyState.WINDUP);
         Agent.isStopped = true;
         Animator.SetTrigger("WINDUP");
 
-        yield return new WaitForSeconds(0.5f); // Windup trajanje
-
+        yield return new WaitForSeconds(WeaponObject.GetWindUp()); // Windup trajanje
+        if (CurrentState == EnemyState.WINDDOWN || CurrentState == EnemyState.STUNNED || CurrentState == EnemyState.DEAD)
+            yield break;
         if (WeaponObject != null)
+        {
+            Gun gun = WeaponObject as Gun;
+            if (gun != null) { gun.BulletSpawnTransform.LookAt(Player.transform.position+new Vector3(Random.Range(0f,1f), Random.Range(0f, 1f), Random.Range(0f, 1f))); } else { Debug.Log("GUN NULL"); }
             WeaponObject.UseAttack();
+        }
+          
         else
             TryDealDamage();
 
         TransitionTo(EnemyState.WINDDOWN);
         Animator.SetTrigger("WINDDOWN");
 
-        yield return new WaitForSeconds(0.4f); // cooldown
-
+        yield return new WaitForSeconds(WeaponObject.GetCooldown()); // cooldown
+        if (CurrentState == EnemyState.WINDUP || CurrentState == EnemyState.STUNNED || CurrentState == EnemyState.DEAD)
+            yield break;
         Agent.isStopped = false;
         TransitionTo(EnemyState.CHASE);
     }
@@ -173,7 +216,7 @@ public class Enemy : MonoBehaviour
     {
         if (Player == null) return;
         float dist = Vector3.Distance(transform.position, Player.transform.position);
-        if (dist <= Gun.GetAttackRangeForAI())
+        if (dist <= WeaponObject.GetAttackRangeForAI())
         {
             var playerHealth = Player.GetComponent<HealthComponent>();
             if (playerHealth != null)
@@ -202,6 +245,9 @@ public class Enemy : MonoBehaviour
     public void Death()
     {
         TransitionTo(EnemyState.DEAD);
+        
+        transform.LookAt(Player.transform, transform.up);
+        Destroy(gameObject,2f);
     }
 
     public void PlayHurtSound()
@@ -228,8 +274,8 @@ public class Enemy : MonoBehaviour
 
         Vector3 dir = (Player.transform.position - transform.position).normalized;
         //
-        Debug.DrawRay(transform.position + Vector3.up, dir * VisionRange, Color.red);
-        if (Physics.Raycast(transform.position + Vector3.up, dir, out RaycastHit hit, VisionRange))
+        Debug.DrawRay(transform.position + Vector3.up* 1.621f, dir * VisionRange, Color.red);
+        if (Physics.Raycast(transform.position + Vector3.up * 1.621f, dir, out RaycastHit hit, VisionRange))
         {
             
             Debug.Log("Raycast pogodio: " + hit.collider.name + " | Tag: " + hit.collider.tag);
@@ -245,7 +291,7 @@ public class Enemy : MonoBehaviour
 
     bool PlayerInAttackRange()
     {
-        if (Player == null || Gun==null) return false;
-        return Vector3.Distance(transform.position, Player.transform.position) <= Gun.GetAttackRangeForAI();
+        if (Player == null || WeaponObject ==null) return false;
+        return Vector3.Distance(transform.position, Player.transform.position) <= WeaponObject.GetAttackRangeForAI();
     }
 }

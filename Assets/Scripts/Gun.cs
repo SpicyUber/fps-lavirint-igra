@@ -5,14 +5,19 @@ public class Gun : MonoBehaviour, Weapon
     public GameObject BulletPrefab;
     public Transform BulletSpawnTransform;
     public float bulletForce = 1f;
-    float attackCooldown = 2f;
+    float attackCooldown = 1f;
     float nextAttackTime = 0f;
+    public float AttackRange = 14f;
+    public float attackWindUp = 0.5f;
     public float GetAttackRangeForAI()
     {
         //samo za testiranje
-        return 14f;
+        return AttackRange;
     }
-
+    public float GetWindUp() { return attackWindUp; }
+    public void SetWindUp(float windUp) { if (windUp <= 0) attackWindUp = 1f; else attackWindUp = windUp; }
+    public float GetCooldown() { return attackCooldown; }
+    public void SetCooldown(float cooldown) { if (cooldown <= 0) attackCooldown = 1f; else attackCooldown = cooldown; }
     public bool UseAttack()
     {
         
@@ -32,6 +37,8 @@ public class Gun : MonoBehaviour, Weapon
         }
 
         GameObject bulletGO = Instantiate(BulletPrefab, BulletSpawnTransform.position, BulletSpawnTransform.rotation);
+        
+    
 
         Bullet bullet = bulletGO.GetComponent<Bullet>();
 
@@ -54,7 +61,8 @@ public class Gun : MonoBehaviour, Weapon
     // Update is called once per frame
     void Update()
     {
-        UseAttack();
+       //UseAttack u update-u nikako :o
+        // UseAttack();
 
 
     }

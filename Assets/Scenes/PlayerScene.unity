@@ -164,6 +164,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   BloodPercent: 0
+  bloodOverlay: {fileID: 0}
+  youDiedText: {fileID: 0}
+  audioListener: {fileID: 0}
+  explosionImpulseSource: {fileID: 0}
+  recoilImpulseSource: {fileID: 0}
 --- !u!1 &429656759 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 6073097717698095559, guid: 99d736c494ce4944ba4de07cfc30ad87, type: 3}
@@ -183,6 +188,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   BulletPrefab: {fileID: 0}
   BulletSpawnTransform: {fileID: 0}
+  bulletForce: 1
 --- !u!1 &1550517061
 GameObject:
   m_ObjectHideFlags: 0

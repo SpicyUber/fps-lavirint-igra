@@ -32,6 +32,7 @@ public class Orange : MonoBehaviour
         transform.Rotate(Vector3.up, rotationSpeed * Time.deltaTime, Space.World);
     }
 
+    
     private void OnTriggerEnter(Collider other)
     {
         if (isCollected) return;
@@ -39,13 +40,14 @@ public class Orange : MonoBehaviour
         HealthComponent health = other.GetComponent<HealthComponent>();
         if (health != null)
         {
-            health.TakeDamage(-25); // Healing effect
+            health.TakeDamage(-50); // Healing effect
             PlayPickupSound();
+            GetComponent<MeshRenderer>().enabled = false;
+           
             isCollected = true;
             Destroy(gameObject, pickupSound != null ? pickupSound.length : 0f); // Delay destroy for sound
         }
     }
-
     private void PlayPickupSound()
     {
         if (pickupSound != null && audioSource != null)

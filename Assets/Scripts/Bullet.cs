@@ -4,9 +4,9 @@ public class Bullet : MonoBehaviour
 {
     public float lifetime = 10f;
     private Rigidbody rb;
-    public GameObject hitEffectPrefab;
-    AudioSource[] sources;
-
+    public GameObject hitEffectPrefab,headshotEffect;
+    AudioSource source;
+   public AudioClip HeadshotSFX, GunshotSFX;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Awake()
     {
@@ -28,38 +28,42 @@ public class Bullet : MonoBehaviour
     }
 
     public void Fire(Vector3 dir, float force) {
-        
+        GetComponent<AudioSource>().pitch = Random.Range(0.96f, 1.15f);
 
         if (rb != null)
         {
             Debug.Log("uslo je u petlju");
-            rb.linearVelocity = dir.normalized * 5f;
+            rb.linearVelocity = dir.normalized * force;
         }
         Debug.Log(rb);
-        sources = GetComponents<AudioSource>();
-        sources[1].Play();
+        source = GetComponent<AudioSource>();
+        source.PlayOneShot(GunshotSFX);
         // Uništi metak nakon određenog vremena
         // Destroy(gameObject, lifetime);
 
     }
     void OnTriggerEnter(Collider other)
     {
+        GetComponent<AudioSource>().pitch = Random.Range(0.96f, 1.15f);
         // 1. Detekcija HealthComponent-a
         HealthComponent health = other.GetComponent<HealthComponent>();
-        if (health != null)
+        if (health != null )
         {
-            float damage = 10f;
+            float damage = 25f;
 
             // Detekcija "headshot" pogođene visine
             float hitY = transform.position.y;
             float targetCenterY = other.bounds.center.y;
             float topY = targetCenterY + other.bounds.extents.y;
 
-            float headshotThreshold = 0.2f; // koliko blizu vrha mora biti pogodak
+            float headshotThreshold = 0.33f; // koliko blizu vrha mora biti pogodak
 
-            if (topY - hitY <= headshotThreshold)
+            if (topY - hitY <= headshotThreshold && !other.CompareTag("Player"))
             {
                 damage *= 2; // headshot!
+                headshotEffect.GetComponent<ParticleSystem>().Play();
+                source.PlayOneShot(HeadshotSFX);
+               
                 Debug.Log("HEADSHOT!");
             }
 
@@ -76,14 +80,19 @@ public class Bullet : MonoBehaviour
         if (renderer != null)
             renderer.enabled = false;
 
-        // 4. Instanciraj particle efekat na poziciji metka (jer nema contact point)
+        // 4. Iskljuci kolajder
+        Collider collider = GetComponent<Collider>();
+        if (collider != null)
+            collider.enabled = false;
+
+        // 5. Instanciraj particle efekat na poziciji metka (jer nema contact point)
         if (hitEffectPrefab != null)
         {
-            Debug.Log("Trigger pogodak sa: " + other.gameObject.name);
+          //  Debug.Log("Trigger pogodak sa: " + other.gameObject.name);
             Instantiate(hitEffectPrefab, transform.position, Quaternion.identity);
         }
 
-        // 5. Uništi metak nakon kraćeg delay-a (da se završi zvuk/efekat)
-        Destroy(gameObject, 0.5f);
+        // 6. Uništi metak nakon kraćeg delay-a (da se završi zvuk/efekat)
+        Destroy(gameObject, 2f);
     }
 }

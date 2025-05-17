@@ -1,5 +1,7 @@
 using UnityEngine;
 using Unity.Cinemachine;
+using UnityEngine.SceneManagement;
+using System.Collections;
 
 public class HudScript : MonoBehaviour
 {
@@ -9,7 +11,7 @@ public class HudScript : MonoBehaviour
     public CanvasGroup bloodOverlay;
 
     [Header("You Died")]
-    public GameObject youDiedText;
+    public GameObject youDiedPanel;
     public AudioListener audioListener;
 
     public CinemachineImpulseSource explosionImpulseSource;
@@ -76,15 +78,30 @@ public class HudScript : MonoBehaviour
     public void RecoilCameraShake(float intensity) {
         if (recoilImpulseSource != null)
         {
-            recoilImpulseSource.GenerateImpulse(Vector3.back * intensity);
+            recoilImpulseSource.GenerateImpulse(-Vector3.up * intensity/4);
         }
     }
 
     public void YouDied() {
-        if (youDiedText != null)
-            youDiedText.SetActive(true);
+      AudioSource deathAudio=  GetComponent<AudioSource>();
+        if (youDiedPanel != null)
+            youDiedPanel.SetActive(true);
+        AudioSource[] audioArray = FindObjectsByType<AudioSource>(FindObjectsSortMode.None);
+        foreach (AudioSource audio in audioArray)
+        { if(deathAudio!=audio)
+            audio.enabled = false;
+        }
 
-        if (audioListener != null)
-            audioListener.enabled = false;
+        deathAudio.Play();
+
+        
+        StartCoroutine(RestartStage());
+    }
+
+    IEnumerator RestartStage()
+    {
+        yield return new WaitForSeconds(4f);
+        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+       
     }
 }

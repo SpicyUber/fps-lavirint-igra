@@ -1,3 +1,4 @@
+using System.Collections;
 using UnityEngine;
 
 public class KnockbackComponent : MonoBehaviour
@@ -22,10 +23,19 @@ public class KnockbackComponent : MonoBehaviour
 
 
         if (rb==null) return;
+        if(rb.isKinematic) { rb.isKinematic = false; StartCoroutine(ReturnKinematic(rb)); }
+        
         rb.AddExplosionForce(force, knockbackLocation, radius);
+        
         if (Hud != null)
         {
             Hud.ExplosionCameraShake(10);
         }
+    }
+    IEnumerator ReturnKinematic(Rigidbody rb)
+    {
+
+        yield return new WaitForSeconds(3f);
+        rb.isKinematic = true;
     }
 }

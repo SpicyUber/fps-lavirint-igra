@@ -33,12 +33,12 @@ public class Explosion : MonoBehaviour
             Destroy(gameObject);
         }
     }
-
+   
     public void Explode() {
 
         currentCollider = -1;
-        hitColliders = Physics.OverlapSphere(transform.position, 100);
-        healthColliders = Physics.OverlapSphere(transform.position, 50);
+        hitColliders = Physics.OverlapSphere(transform.position, 25);
+        healthColliders = Physics.OverlapSphere(transform.position, 12.5f);
         int numberOfColliders = hitColliders.Length;
         knockbackComps = new KnockbackComponent[numberOfColliders];
         healthComps = new HealthComponent[numberOfColliders];
@@ -49,7 +49,8 @@ public class Explosion : MonoBehaviour
             if (collider.GetComponent<KnockbackComponent>() != null)
             {
                 knockbackComps[currentCollider] = collider.GetComponent<KnockbackComponent>();
-                knockbackComps[currentCollider].CreateExplosion(transform.position, knockForce, 50);
+               
+                knockbackComps[currentCollider].CreateExplosion(transform.position, knockForce, 25);
 
             }
         }
@@ -62,7 +63,7 @@ public class Explosion : MonoBehaviour
             if (collider.GetComponent<HealthComponent>() != null)
             {
                 healthComps[currentCollider] = collider.GetComponent<HealthComponent>();
-                healthComps[currentCollider].TakeDamage(100f);
+                healthComps[currentCollider].TakeDamage(40f);
             }
         }
 
