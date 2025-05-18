@@ -1,3 +1,4 @@
+using System.Collections;
 using UnityEngine;
 
 public class ExplosiveBarrel : MonoBehaviour
@@ -6,6 +7,7 @@ public class ExplosiveBarrel : MonoBehaviour
     public HealthComponent HealthComponent;
     Explosion ExplosionScript;
     public MeshCollider MeshCollider;
+    private bool _didExplode = false;
 
     void Awake()
     {
@@ -30,6 +32,21 @@ public class ExplosiveBarrel : MonoBehaviour
 
     public void SpawnExplosion() {
 
+        if (_didExplode) return;
+        _didExplode = true;
+
+        StartCoroutine(ExplodeRoutine(0.1f));
+
+
+    }
+
+    IEnumerator ExplodeRoutine(float delay)
+    {
+        yield return new WaitForSeconds(delay);
+        SpawnExplosionSecondHalf();
+    }
+    private void SpawnExplosionSecondHalf()
+    {
         HealthComponent.enabled = false;
 
         if (ExplosionPrefab != null)
@@ -42,8 +59,6 @@ public class ExplosiveBarrel : MonoBehaviour
         }
 
         Destroy(this.gameObject);
-
-
 
 
     }

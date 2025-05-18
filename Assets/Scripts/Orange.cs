@@ -5,7 +5,7 @@ public class Orange : MonoBehaviour
     public float floatSpeed = 1.5f;
     public float floatHeight = 0.5f;
     public float rotationSpeed = 50f;
-    public AudioClip pickupSound;
+    public AudioClip pickupSound, spawnSound;
 
     private Vector3 startPos;
     private AudioSource audioSource;
@@ -15,6 +15,7 @@ public class Orange : MonoBehaviour
     {
         startPos = transform.position;
         audioSource = GetComponent<AudioSource>();
+
     }
 
     void Update()

@@ -1,5 +1,6 @@
-using System;
+
 using UnityEngine;
+
 
 public class Explosion : MonoBehaviour
 {
@@ -18,6 +19,7 @@ public class Explosion : MonoBehaviour
     void Start()
     {
         explosionAudio.enabled = true; //temporary (not sure if the explode audio activates wilst being initiated; so I turned it off)
+        explosionAudio.pitch = Random.Range(0.95f, 1.1f);
         explosionAudio.Play();
         explosionParticles.Play();
         Explode();

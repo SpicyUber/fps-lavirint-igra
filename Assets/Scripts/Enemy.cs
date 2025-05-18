@@ -29,6 +29,7 @@ public class Enemy : MonoBehaviour
 
     void Start()
     {
+       
         if (WeaponObject == null)
             WeaponObject = GetComponentInChildren<Weapon>();
         if (level < 1 || level > 3) level = 1;
@@ -73,7 +74,7 @@ public class Enemy : MonoBehaviour
             _health.OnDamage.AddListener(StunSelf);
 
         }
-
+        if(Agent.isActiveAndEnabled)
         Agent.speed = MoveSpeed;
         if (CanSeePlayer())
         {
@@ -98,11 +99,11 @@ public class Enemy : MonoBehaviour
                 break;
 
             case EnemyState.CHASE:
-           
-                Debug.Log("CHASE stanje aktivno");
-                Debug.Log("Agent isStopped: " + Agent.isStopped);  // Proveri da li je agent zaustavljen
-                Debug.Log("Agent velocity: " + Agent.velocity);     // Proveri brzinu
-                Debug.Log("Agent remaining distance: " + Agent.remainingDistance); // Preostala udaljenost do cilja
+
+                //   Debug.Log("CHASE stanje aktivno");
+                //     Debug.Log("Agent isStopped: " + Agent.isStopped);  Proveri da li je agent zaustavljen
+                //  Debug.Log("Agent velocity: " + Agent.velocity);      Proveri brzinu
+                //  Debug.Log("Agent remaining distance: " + Agent.remainingDistance);  Preostala udaljenost do cilja
                 if (PlayerInAttackRange())
                 {
                     StartCoroutine(AttackRoutine());
@@ -126,7 +127,7 @@ public class Enemy : MonoBehaviour
         
 
     }
-
+    
     public void TransitionTo(EnemyState state)
     {
         Debug.Log("Prelazim u stanje: " + state);
@@ -139,7 +140,7 @@ public class Enemy : MonoBehaviour
         switch (state)
         {
             case EnemyState.IDLE:
-                Agent.isStopped = true;
+              if(Agent.isActiveAndEnabled)Agent.isStopped = true;
                 
                 Animator.SetTrigger("IDLE");
                 Debug.Log("Animacija: IDLE");
@@ -148,7 +149,8 @@ public class Enemy : MonoBehaviour
             case EnemyState.CHASE:
                 if (ChasesPlayer)
                 {
-                    Agent.isStopped = false;
+                    if (Agent.isActiveAndEnabled)
+                        Agent.isStopped = false;
                     
                     Animator.SetTrigger("CHASE");
                     Debug.Log("Animacija: CHASE");
@@ -160,7 +162,7 @@ public class Enemy : MonoBehaviour
                 break;
 
             case EnemyState.DEAD:
-                Agent.isStopped = true;
+                if (Agent.isActiveAndEnabled)Agent.isStopped = true;
                  StartCoroutine(WaitOneFrameThenDeathAnimation());
                
                 Debug.Log("Animacija: DEAD");
@@ -186,7 +188,7 @@ public class Enemy : MonoBehaviour
             yield break;
 
         TransitionTo(EnemyState.WINDUP);
-        Agent.isStopped = true;
+       if(Agent.isActiveAndEnabled) Agent.isStopped = true;
         Animator.SetTrigger("WINDUP");
 
         yield return new WaitForSeconds(WeaponObject.GetWindUp()); // Windup trajanje
@@ -208,7 +210,7 @@ public class Enemy : MonoBehaviour
         yield return new WaitForSeconds(WeaponObject.GetCooldown()); // cooldown
         if (CurrentState == EnemyState.WINDUP || CurrentState == EnemyState.STUNNED || CurrentState == EnemyState.DEAD)
             yield break;
-        Agent.isStopped = false;
+        if (Agent.isActiveAndEnabled) Agent.isStopped = false;
         TransitionTo(EnemyState.CHASE);
     }
 
@@ -235,17 +237,17 @@ public class Enemy : MonoBehaviour
         if (CurrentState == EnemyState.DEAD) yield break;
         
         TransitionTo(EnemyState.STUNNED);
-        Agent.isStopped = true;
+        if (Agent.isActiveAndEnabled) Agent.isStopped = true;
         Animator.SetTrigger("STUNNED");
         yield return new WaitForSeconds(1f);
-        Agent.isStopped = false;
+        if (Agent.isActiveAndEnabled) Agent.isStopped = false;
         TransitionTo(EnemyState.CHASE);
     }
 
     public void Death()
     {
         TransitionTo(EnemyState.DEAD);
-        
+        FindAnyObjectByType<TheTimer>().CurrentTime+=4*level;
         transform.LookAt(Player.transform, transform.up);
         Destroy(gameObject,2f);
     }
@@ -254,7 +256,7 @@ public class Enemy : MonoBehaviour
     {
         if (audioSource != null && hurtClip != null)
         {
-            audioSource.PlayOneShot(hurtClip);
+            audioSource.PlayOneShot(hurtClip,0.6f);
         }
     }
 

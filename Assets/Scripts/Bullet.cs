@@ -37,7 +37,7 @@ public class Bullet : MonoBehaviour
         }
         Debug.Log(rb);
         source = GetComponent<AudioSource>();
-        source.PlayOneShot(GunshotSFX);
+        source.PlayOneShot(GunshotSFX,0.4f);
         // Uništi metak nakon određenog vremena
         // Destroy(gameObject, lifetime);
 
@@ -58,7 +58,7 @@ public class Bullet : MonoBehaviour
 
             float headshotThreshold = 0.33f; // koliko blizu vrha mora biti pogodak
 
-            if (topY - hitY <= headshotThreshold && !other.CompareTag("Player"))
+            if (topY - hitY <= headshotThreshold && other.CompareTag("Enemy"))
             {
                 damage *= 2; // headshot!
                 headshotEffect.GetComponent<ParticleSystem>().Play();

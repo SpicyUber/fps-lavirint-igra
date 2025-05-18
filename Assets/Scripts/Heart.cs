@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System.Collections;
+using UnityEngine;
 
 public class Heart : MonoBehaviour
 {
@@ -22,12 +23,11 @@ public class Heart : MonoBehaviour
         health = GetComponent<HealthComponent>();
         if (health != null)
         {
-            health.MaxHealth = 1;
-            health.CurrentHealth = 1;
+           // health.MaxHealth = 1;
+            //health.CurrentHealth = 1;
             
             health.OnDeath.AddListener(HeartExplosion); // Fix: Use AddListener to subscribe to UnityEvent
-            health.TakeDamage(1);
-            health.TakeDamage(0);
+            
 
 
         }
@@ -73,8 +73,16 @@ public class Heart : MonoBehaviour
         if (heartCollider != null)
             heartCollider.enabled = false;
         Debug.Log("Heart exploded!");
+        StartCoroutine(Earthquake());
+        
     }
-
+    IEnumerator Earthquake()
+    {
+        float t = 2f;
+        while (t > 0f) { FindAnyObjectByType<HudScript>().ExplosionCameraShake(t/24f); yield return new WaitForSeconds(0.2f); t -= 0.2f; }
+        
+        
+    }
     public void ActivateHeart()
     {
         if (health != null)
