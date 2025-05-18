@@ -48,7 +48,7 @@ public class Tentacle : MonoBehaviour
         if (!noFX) { 
         AudioSource.Play();
         Particles.Play();
-            FindAnyObjectByType<TheTimer>().CurrentTime += 3;
+            FindAnyObjectByType<TheTimer>().AddTime(4);
             Animator.SetTrigger("Despawn");
         }
         _collider.enabled = false;

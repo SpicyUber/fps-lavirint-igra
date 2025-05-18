@@ -3,6 +3,7 @@ using Unity.Cinemachine;
 using UnityEngine.SceneManagement;
 using System.Collections;
 using TMPro;
+using UnityEngine.UI;
 
 public class HudScript : MonoBehaviour
 {
@@ -13,10 +14,11 @@ public class HudScript : MonoBehaviour
     public GameObject WaterOverlay;
     public TextMeshProUGUI Timer;
     public TheTimer TheTimer;
+    public Image TimerIcon;
     [Header("You Died")]
     public GameObject youDiedPanel;
     public AudioListener audioListener;
-
+    
     public CinemachineImpulseSource explosionImpulseSource;
     public CinemachineImpulseSource recoilImpulseSource;
 
@@ -26,6 +28,7 @@ public class HudScript : MonoBehaviour
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
+        
         TheTimer = FindAnyObjectByType<TheTimer>();
         if (explosionImpulseSource == null)
             Debug.LogWarning("Explosion impulse source not assigned!");
@@ -67,13 +70,19 @@ public class HudScript : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        Timer.text ="TIME: "+ Mathf.FloorToInt(TheTimer.CurrentTime);
+        float timerTime = Mathf.FloorToInt(TheTimer.CurrentTime);
+        if (timerTime >= 0)
+        Timer.text = " : " + timerTime;
+        
+        if(timerTime <=5) { Timer.color = Color.red; TimerIcon.color = Color.red; } else { Timer.color = Color.white; TimerIcon.color = Color.white; }
+
         if (bloodOverlay != null)
         {
             bloodOverlay.alpha = BloodPercent;
         }
     }
 
+    
     public void ExplosionCameraShake(float intensity) {
         if (explosionImpulseSource != null)
         {

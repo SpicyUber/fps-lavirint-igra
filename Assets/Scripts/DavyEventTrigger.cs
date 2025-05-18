@@ -22,7 +22,7 @@ public class DavyEventTrigger : MonoBehaviour
         MusicAudioSource.clip= DavySong;
         MusicAudioSource.PlayOneShot(DavyIntro);
         MusicAudioSource.PlayDelayed(DavyIntro.length);
-        FindAnyObjectByType<TheTimer>().CurrentTime += 20;
+        FindAnyObjectByType<TheTimer>().AddTime(20);
         foreach (Tentacle tentacle in GameObject.FindObjectsByType<Tentacle>(FindObjectsSortMode.None))
         {
             tentacle.Spawn();

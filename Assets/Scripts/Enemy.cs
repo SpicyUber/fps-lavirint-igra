@@ -247,7 +247,7 @@ public class Enemy : MonoBehaviour
     public void Death()
     {
         TransitionTo(EnemyState.DEAD);
-        FindAnyObjectByType<TheTimer>().CurrentTime+=4*level;
+        FindAnyObjectByType<TheTimer>().AddTime(4 *level);
         transform.LookAt(Player.transform, transform.up);
         Destroy(gameObject,2f);
     }
