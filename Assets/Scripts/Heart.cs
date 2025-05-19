@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using UnityEngine;
+using UnityEngine.Events;
 
 public class Heart : MonoBehaviour
 {
@@ -12,7 +13,9 @@ public class Heart : MonoBehaviour
     public Collider heartCollider;           // Fizička kolizija
     public ParticleSystem bloodParticles;    // Efekat eksplozije
     public AudioSource audioSource;
-    
+    public UnityEvent OnHeartDestroyed;
+
+
 
     private Vector3 baseScale;
     private float beatTimer = 0f;
@@ -74,7 +77,8 @@ public class Heart : MonoBehaviour
             heartCollider.enabled = false;
         Debug.Log("Heart exploded!");
         StartCoroutine(Earthquake());
-        
+        OnHeartDestroyed.Invoke(); // Invoke the event if there are any listeners
+
     }
     IEnumerator Earthquake()
     {

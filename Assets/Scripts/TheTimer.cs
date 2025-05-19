@@ -4,8 +4,8 @@ using static Unity.VisualScripting.Member;
 
 public class TheTimer : MonoBehaviour
 {
-    public float StartTime = 10f;
-    public float CurrentTime = 10f;
+    public float StartTime = 40f;
+    public float CurrentTime = 40f;
     public GameObject Water;
     private bool _flooding = false;
     private AudioSource _source;

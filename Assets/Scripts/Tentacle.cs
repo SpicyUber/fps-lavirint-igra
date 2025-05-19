@@ -12,7 +12,7 @@ public class Tentacle : MonoBehaviour
     public AudioSource AudioSource;
     public Animator Animator;
     private SkinnedMeshRenderer _renderer;
-    private Collider _collider;
+    public Collider _collider;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
