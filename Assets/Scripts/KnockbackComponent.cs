@@ -37,5 +37,5 @@ public class KnockbackComponent : MonoBehaviour
 
         yield return new WaitForSeconds(3f);
         rb.isKinematic = true;
-    }
+      }
 }

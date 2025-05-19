@@ -79,6 +79,7 @@ public class Heart : MonoBehaviour
     IEnumerator Earthquake()
     {
         float t = 2f;
+        FindAnyObjectByType<ThunderManager>().Play();
         while (t > 0f) { FindAnyObjectByType<HudScript>().ExplosionCameraShake(t/24f); yield return new WaitForSeconds(0.2f); t -= 0.2f; }
         
         

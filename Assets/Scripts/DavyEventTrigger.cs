@@ -27,7 +27,10 @@ public class DavyEventTrigger : MonoBehaviour
         {
             tentacle.Spawn();
         }
-
+        foreach (Enemy enemy in GameObject.FindObjectsByType<Enemy>(FindObjectsSortMode.None))
+        {
+            if(enemy!= null && enemy.CurrentState!=EnemyState.DEAD) { enemy.TransitionTo(EnemyState.IDLE); } 
+        }
 
     }
    public void Start() { _color = SkyRenderer.materials[0].GetColor("_Color");

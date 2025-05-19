@@ -78,7 +78,7 @@ public class Enemy : MonoBehaviour
         Agent.speed = MoveSpeed;
         if (CanSeePlayer())
         {
-            Debug.Log("Vidio igrača! Prelazim u CHASE");
+           // Debug.Log("Vidio igrača! Prelazim u CHASE");
             TransitionTo(EnemyState.CHASE);
         }else
         TransitionTo(EnemyState.IDLE);
@@ -93,7 +93,7 @@ public class Enemy : MonoBehaviour
                 
                 if (CanSeePlayer())
                 {
-                    Debug.Log("Vidio igrača! Prelazim u CHASE");
+                   // Debug.Log("Vidio igrača! Prelazim u CHASE");
                     if (ChasesPlayer) TransitionTo(EnemyState.CHASE); else StartCoroutine(AttackRoutine());
                 }
                 break;
@@ -111,15 +111,15 @@ public class Enemy : MonoBehaviour
                 else
                 {
                     // Ako je agent zaustavljen, pokreni ga
-                    if (Agent.isStopped)
+                    if (Agent.isActiveAndEnabled && Agent.isStopped)
                     {
                         Agent.isStopped = false;  // Pokreni agenta
-                        Debug.Log("Agent is now moving towards the player.");
+                       // Debug.Log("Agent is now moving towards the player.");
                     }
 
                     Vector3 playerPosition = Player.transform.position;
-                    Debug.Log("Postavljam destinaciju: " + playerPosition);
-                    Agent.SetDestination(playerPosition);
+                   // Debug.Log("Postavljam destinaciju: " + playerPosition);
+                   if(Agent.isActiveAndEnabled) Agent.SetDestination(playerPosition);
                 }
                 
                 break;
@@ -130,7 +130,7 @@ public class Enemy : MonoBehaviour
     
     public void TransitionTo(EnemyState state)
     {
-        Debug.Log("Prelazim u stanje: " + state);
+      //  Debug.Log("Prelazim u stanje: " + state);
         if (CurrentState == EnemyState.DEAD) return;
         else if (state == EnemyState.DEAD) audioSource.PlayOneShot(audioSource.clip);
         if ( (CurrentState == EnemyState.WINDUP  || CurrentState == EnemyState.STUNNED || CurrentState == EnemyState.DEAD) && (state == EnemyState.IDLE)) return;
@@ -143,7 +143,7 @@ public class Enemy : MonoBehaviour
               if(Agent.isActiveAndEnabled)Agent.isStopped = true;
                 
                 Animator.SetTrigger("IDLE");
-                Debug.Log("Animacija: IDLE");
+               // Debug.Log("Animacija: IDLE");
                 break;
 
             case EnemyState.CHASE:
@@ -153,7 +153,7 @@ public class Enemy : MonoBehaviour
                         Agent.isStopped = false;
                     
                     Animator.SetTrigger("CHASE");
-                    Debug.Log("Animacija: CHASE");
+                  //  Debug.Log("Animacija: CHASE");
                 }
                 else
                 {
@@ -165,7 +165,7 @@ public class Enemy : MonoBehaviour
                 if (Agent.isActiveAndEnabled)Agent.isStopped = true;
                  StartCoroutine(WaitOneFrameThenDeathAnimation());
                
-                Debug.Log("Animacija: DEAD");
+               // Debug.Log("Animacija: DEAD");
                 GetComponent<Collider>().enabled = false;
                 break;
             case EnemyState.WINDUP:
@@ -264,13 +264,13 @@ public class Enemy : MonoBehaviour
     {
         if (Player == null)
         {
-            Debug.Log("Nema Player reference");
+           // Debug.Log("Nema Player reference");
             return false;
         }
             float dist = Vector3.Distance(transform.position, Player.transform.position);
         if (dist > VisionRange)
         {
-            Debug.Log("Igrač je predaleko: " + dist);
+           // Debug.Log("Igrač je predaleko: " + dist);
             return false;
         }
 
@@ -280,14 +280,14 @@ public class Enemy : MonoBehaviour
         if (Physics.Raycast(transform.position + Vector3.up * 1.621f, dir, out RaycastHit hit, VisionRange))
         {
             
-            Debug.Log("Raycast pogodio: " + hit.collider.name + " | Tag: " + hit.collider.tag);
+          //  Debug.Log("Raycast pogodio: " + hit.collider.name + " | Tag: " + hit.collider.tag);
             if (hit.collider.CompareTag("Player"))
             {
-                Debug.Log("Raycast vidi igrača!");
+                //Debug.Log("Raycast vidi igrača!");
                 return true;
             }
         }
-        Debug.Log("Ne vidi igrača (Raycast blokiran)");
+        //Debug.Log("Ne vidi igrača (Raycast blokiran)");
         return false;
     }
 
