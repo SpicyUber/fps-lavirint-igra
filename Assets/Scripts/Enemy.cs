@@ -27,24 +27,25 @@ public class Enemy : MonoBehaviour
     private HealthComponent _health;
     private AudioSource audioSource;
 
-    void Start()
+    public void Start()
     {
-       
+        Func();
+    }
+    public virtual void Func()
+    {
+
         if (WeaponObject == null)
             WeaponObject = GetComponentInChildren<Weapon>();
-        if (level < 1 || level > 3) level = 1;
-        //hard coding values. bad unity practice but its quicker right now then to manually go into editor.
-        MoveSpeed = 3.5f * level;
-        WeaponObject.SetCooldown(1.5f/level);
-        WeaponObject.SetWindUp(0.5f / level);
-        GetComponent<HealthComponent>().MaxHealth = 50f * level;
-        GetComponent<HealthComponent>().CurrentHealth = 50f * level;
-        transform.GetChild(1).gameObject.SetActive(false);
-        transform.GetChild(2).gameObject.SetActive(false);
-        transform.GetChild(3).gameObject.SetActive(false);
-        transform.GetChild(level).gameObject.SetActive(true);
+        if (this.GetType() != typeof(Davy))
+        {
+            SetLevel();
+        }
+        else
+        {
+            MoveSpeed = 3.5f;
+        }
 
-        
+
         audioSource = GetComponent<AudioSource>();
 
         if (Agent == null)
@@ -74,18 +75,89 @@ public class Enemy : MonoBehaviour
             _health.OnDamage.AddListener(StunSelf);
 
         }
-        if(Agent.isActiveAndEnabled)
-        Agent.speed = MoveSpeed;
+        if (Agent.isActiveAndEnabled)
+            Agent.speed = MoveSpeed;
         if (CanSeePlayer())
         {
-           // Debug.Log("Vidio igrača! Prelazim u CHASE");
+            // Debug.Log("Vidio igrača! Prelazim u CHASE");
             TransitionTo(EnemyState.CHASE);
-        }else
-        TransitionTo(EnemyState.IDLE);
-       // Animator.SetTrigger("IDLE");
+        }
+        else
+            TransitionTo(EnemyState.IDLE);
+        // Animator.SetTrigger("IDLE");
+    }
+    public void SetLevel()
+    {
+        if (level < 1 || level > 3) level = 1;
+        //hard coding values. bad unity practice but its quicker right now then to manually go into editor.
+        MoveSpeed = 3.5f * level;
+        WeaponObject.SetCooldown(1.5f / level);
+        WeaponObject.SetWindUp(0.5f / level);
+        GetComponent<HealthComponent>().MaxHealth = 50f * level;
+        GetComponent<HealthComponent>().CurrentHealth = 50f * level;
+        transform.GetChild(1).gameObject.SetActive(false);
+        transform.GetChild(2).gameObject.SetActive(false);
+        transform.GetChild(3).gameObject.SetActive(false);
+        transform.GetChild(level).gameObject.SetActive(true);
+
     }
 
-    void Update()
+    public void Update()
+    {
+
+        FuncUpdate();
+
+    }
+    public virtual void FuncUpdate()
+    {
+        switch (CurrentState)
+        {
+            case EnemyState.IDLE:
+
+                Idle();
+                break;
+
+            case EnemyState.CHASE:
+                Chase();
+
+                //   Debug.Log("CHASE stanje aktivno");
+                //     Debug.Log("Agent isStopped: " + Agent.isStopped);  Proveri da li je agent zaustavljen
+                //  Debug.Log("Agent velocity: " + Agent.velocity);      Proveri brzinu
+                //  Debug.Log("Agent remaining distance: " + Agent.remainingDistance);  Preostala udaljenost do cilja
+
+
+                break;
+        }
+    }
+    public void Chase()
+    {
+        if (PlayerInAttackRange())
+        {
+            StartCoroutine(AttackRoutine());
+        }
+        else
+        {
+            // Ako je agent zaustavljen, pokreni ga
+            if (Agent.isActiveAndEnabled && Agent.isStopped)
+            {
+                Agent.isStopped = false;  // Pokreni agenta
+                                          // Debug.Log("Agent is now moving towards the player.");
+            }
+
+            Vector3 playerPosition = Player.transform.position;
+            // Debug.Log("Postavljam destinaciju: " + playerPosition);
+            if (Agent.isActiveAndEnabled) Agent.SetDestination(playerPosition);
+        }
+    }
+    public void Idle()
+    {
+        if (CanSeePlayer())
+        {
+            // Debug.Log("Vidio igrača! Prelazim u CHASE");
+            if (ChasesPlayer) TransitionTo(EnemyState.CHASE); else StartCoroutine(AttackRoutine());
+        }
+    }
+    public void EnemeyState()
     {
         switch (CurrentState)
         {
@@ -124,10 +196,7 @@ public class Enemy : MonoBehaviour
                 
                 break;
         }
-        
-
     }
-    
     public void TransitionTo(EnemyState state)
     {
       //  Debug.Log("Prelazim u stanje: " + state);

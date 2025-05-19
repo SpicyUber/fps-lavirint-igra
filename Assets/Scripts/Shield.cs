@@ -28,11 +28,12 @@ public class Shield : MonoBehaviour
 
     void OnTriggerEnter(Collider other)
     {
-        //if (other.CompareTag("Bullet")) // Pretpostavljamo da metak ima tag "Bullet"
-        //{
+
+        if (other.CompareTag("Bullet")) // Pretpostavljamo da metak ima tag "Bullet"
+        {
         Debug.Log("Shield triggered by: " + other.name);
         ShowTemporarily();
-        //}
+        }
     }
 
     private void ShowTemporarily()

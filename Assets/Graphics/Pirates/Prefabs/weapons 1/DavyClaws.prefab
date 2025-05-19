@@ -128,6 +128,7 @@ MonoBehaviour:
   attackRadius: 1
   damage: 50
   attackCooldown: 1.3
+  attackWindUp: 0.5
 --- !u!82 &8358371262226854613
 AudioSource:
   m_ObjectHideFlags: 0

@@ -1698,6 +1698,147 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 7875990359124577184, guid: 9530542a5158fc34ebe3121c1e4f03f2, type: 3}
   m_PrefabInstance: {fileID: 216926107}
   m_PrefabAsset: {fileID: 0}
+--- !u!1001 &224439172
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 1198869624555837770, guid: a758baa57f6077d4cae82838b31fe92f, type: 3}
+      propertyPath: Player
+      value: 
+      objectReference: {fileID: 1750825723}
+    - target: {fileID: 1198869624555837770, guid: a758baa57f6077d4cae82838b31fe92f, type: 3}
+      propertyPath: Animator
+      value: 
+      objectReference: {fileID: 1690255837}
+    - target: {fileID: 1883440127841591300, guid: a758baa57f6077d4cae82838b31fe92f, type: 3}
+      propertyPath: m_LocalScale.x
+      value: 2.2
+      objectReference: {fileID: 0}
+    - target: {fileID: 1883440127841591300, guid: a758baa57f6077d4cae82838b31fe92f, type: 3}
+      propertyPath: m_LocalScale.y
+      value: 1.4
+      objectReference: {fileID: 0}
+    - target: {fileID: 1883440127841591300, guid: a758baa57f6077d4cae82838b31fe92f, type: 3}
+      propertyPath: m_LocalScale.z
+      value: 2.2
+      objectReference: {fileID: 0}
+    - target: {fileID: 1883440127841591300, guid: a758baa57f6077d4cae82838b31fe92f, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1883440127841591300, guid: a758baa57f6077d4cae82838b31fe92f, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 1.71
+      objectReference: {fileID: 0}
+    - target: {fileID: 1883440127841591300, guid: a758baa57f6077d4cae82838b31fe92f, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3234694563312442025, guid: a758baa57f6077d4cae82838b31fe92f, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0.13
+      objectReference: {fileID: 0}
+    - target: {fileID: 3234694563312442025, guid: a758baa57f6077d4cae82838b31fe92f, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 1.79
+      objectReference: {fileID: 0}
+    - target: {fileID: 3234694563312442025, guid: a758baa57f6077d4cae82838b31fe92f, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: -0.22
+      objectReference: {fileID: 0}
+    - target: {fileID: 3444894648173306590, guid: a758baa57f6077d4cae82838b31fe92f, type: 3}
+      propertyPath: OnDeath.m_PersistentCalls.m_Calls.Array.size
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3444894648173306590, guid: a758baa57f6077d4cae82838b31fe92f, type: 3}
+      propertyPath: OnDeath.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 3710119422545929267, guid: a758baa57f6077d4cae82838b31fe92f, type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5179876164564257966, guid: a758baa57f6077d4cae82838b31fe92f, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -1.95
+      objectReference: {fileID: 0}
+    - target: {fileID: 5179876164564257966, guid: a758baa57f6077d4cae82838b31fe92f, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 6.38
+      objectReference: {fileID: 0}
+    - target: {fileID: 5179876164564257966, guid: a758baa57f6077d4cae82838b31fe92f, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 1.24
+      objectReference: {fileID: 0}
+    - target: {fileID: 6133314531832449590, guid: a758baa57f6077d4cae82838b31fe92f, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -36
+      objectReference: {fileID: 0}
+    - target: {fileID: 6133314531832449590, guid: a758baa57f6077d4cae82838b31fe92f, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 5.1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6133314531832449590, guid: a758baa57f6077d4cae82838b31fe92f, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 74.7
+      objectReference: {fileID: 0}
+    - target: {fileID: 6133314531832449590, guid: a758baa57f6077d4cae82838b31fe92f, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6133314531832449590, guid: a758baa57f6077d4cae82838b31fe92f, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6133314531832449590, guid: a758baa57f6077d4cae82838b31fe92f, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6133314531832449590, guid: a758baa57f6077d4cae82838b31fe92f, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6133314531832449590, guid: a758baa57f6077d4cae82838b31fe92f, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6133314531832449590, guid: a758baa57f6077d4cae82838b31fe92f, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6133314531832449590, guid: a758baa57f6077d4cae82838b31fe92f, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6520138905989755618, guid: a758baa57f6077d4cae82838b31fe92f, type: 3}
+      propertyPath: HurtboxCastTransform
+      value: 
+      objectReference: {fileID: 1046574457}
+    - target: {fileID: 6663134339463843541, guid: a758baa57f6077d4cae82838b31fe92f, type: 3}
+      propertyPath: m_Name
+      value: Davy
+      objectReference: {fileID: 0}
+    - target: {fileID: 6663134339463843541, guid: a758baa57f6077d4cae82838b31fe92f, type: 3}
+      propertyPath: m_TagString
+      value: Enemy
+      objectReference: {fileID: 0}
+    - target: {fileID: 8815979954265904480, guid: a758baa57f6077d4cae82838b31fe92f, type: 3}
+      propertyPath: m_IsKinematic
+      value: 1
+      objectReference: {fileID: 0}
+    m_RemovedComponents:
+    - {fileID: 5047022488802867029, guid: a758baa57f6077d4cae82838b31fe92f, type: 3}
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 669631197914503512, guid: a758baa57f6077d4cae82838b31fe92f, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1690255837}
+  m_SourcePrefab: {fileID: 100100000, guid: a758baa57f6077d4cae82838b31fe92f, type: 3}
 --- !u!1001 &226163136
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -5194,6 +5335,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 602896557}
     m_Modifications:
+    - target: {fileID: 1957545418669619609, guid: 57cfd3058fcbc1949a71883b6a60882e, type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 2722818987843730309, guid: 57cfd3058fcbc1949a71883b6a60882e, type: 3}
       propertyPath: m_Name
       value: DavyHeartModel
@@ -5249,6 +5394,10 @@ PrefabInstance:
     - target: {fileID: 3351441037346038079, guid: 57cfd3058fcbc1949a71883b6a60882e, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: -0.001
+      objectReference: {fileID: 0}
+    - target: {fileID: 4524315531464055376, guid: 57cfd3058fcbc1949a71883b6a60882e, type: 3}
+      propertyPath: m_Enabled
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -10297,6 +10446,11 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 09e22b0ad96582d4890cc682d689e6c8, type: 3}
+--- !u!4 &1046574457 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 3234694563312442025, guid: a758baa57f6077d4cae82838b31fe92f, type: 3}
+  m_PrefabInstance: {fileID: 224439172}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &1048390752
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -13375,6 +13529,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 1704573835}
     m_Modifications:
+    - target: {fileID: 1957545418669619609, guid: 57cfd3058fcbc1949a71883b6a60882e, type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 2722818987843730309, guid: 57cfd3058fcbc1949a71883b6a60882e, type: 3}
       propertyPath: m_Name
       value: DavyHeartModel
@@ -13430,6 +13588,10 @@ PrefabInstance:
     - target: {fileID: 3351441037346038079, guid: 57cfd3058fcbc1949a71883b6a60882e, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: -0.001
+      objectReference: {fileID: 0}
+    - target: {fileID: 4524315531464055376, guid: 57cfd3058fcbc1949a71883b6a60882e, type: 3}
+      propertyPath: m_Enabled
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -16627,6 +16789,33 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 2675b6a45ad9a0645adae1d5af7d407a, type: 3}
+--- !u!1 &1690255835 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 669631197914503512, guid: a758baa57f6077d4cae82838b31fe92f, type: 3}
+  m_PrefabInstance: {fileID: 224439172}
+  m_PrefabAsset: {fileID: 0}
+--- !u!95 &1690255837
+Animator:
+  serializedVersion: 7
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1690255835}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: f36e558be06d91042b87edb0b0a9e05a, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_AnimatePhysics: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
 --- !u!1 &1704573831
 GameObject:
   m_ObjectHideFlags: 0
@@ -19956,6 +20145,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 888610842}
     m_Modifications:
+    - target: {fileID: 1957545418669619609, guid: 57cfd3058fcbc1949a71883b6a60882e, type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 2722818987843730309, guid: 57cfd3058fcbc1949a71883b6a60882e, type: 3}
       propertyPath: m_Name
       value: DavyHeartModel
@@ -20011,6 +20204,10 @@ PrefabInstance:
     - target: {fileID: 3351441037346038079, guid: 57cfd3058fcbc1949a71883b6a60882e, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: -0.001
+      objectReference: {fileID: 0}
+    - target: {fileID: 4524315531464055376, guid: 57cfd3058fcbc1949a71883b6a60882e, type: 3}
+      propertyPath: m_Enabled
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -21583,3 +21780,4 @@ SceneRoots:
   - {fileID: 789635291}
   - {fileID: 839125678}
   - {fileID: 2058341035}
+  - {fileID: 224439172}

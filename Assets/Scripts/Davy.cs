@@ -7,15 +7,21 @@ public class Davy : Enemy
     public int HeartIndex;
     public Tentacle[] Tentacles;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
+    
+  
+    public override void Func()
     {
-        
+        base.Func();
+        Hearts = FindObjectsByType<Heart>(0);
+        Tentacles = FindObjectsByType<Tentacle>(0);
     }
 
     // Update is called once per frame
-    void Update()
+
+    public override void FuncUpdate()
     {
-        
+        base.FuncUpdate();
+
     }
 
     public void StunSelfAndTakeDownShield() { }
