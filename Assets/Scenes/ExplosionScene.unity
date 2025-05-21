@@ -743,6 +743,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ExplosionPrefab: {fileID: 6820357045793840960, guid: 63599f36d7a4797489e1396710a6af26, type: 3}
   HealthComponent: {fileID: 6399295755778011503}
+  MeshRenderer: {fileID: 4089956017450648385}
   MeshCollider: {fileID: 6399295755778011500}
 --- !u!114 &6399295755778011502
 MonoBehaviour:
