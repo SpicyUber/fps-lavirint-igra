@@ -31,6 +31,9 @@ public class PlayerScript : MonoBehaviour
         _startCameraPosition = CameraPositionTransform.localPosition;
         PlayerRB.maxLinearVelocity = 10;
         _playerComponentsTransform.rotation = Quaternion.identity;
+        MouseSensitivity = PlayerPrefs.GetFloat("MouseSensitivity") * 50f;
+        if (MouseSensitivity < 1f) MouseSensitivity = 1f;
+        Cursor.visible = false;
     }
 
     // Update is called once per frame
