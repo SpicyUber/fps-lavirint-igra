@@ -24,7 +24,7 @@ public class PlayerScript : MonoBehaviour
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-        
+        if (PlayerPrefs.GetInt("Checkpoint") != 0) { transform.position = new Vector3(-126.145065f, 2.77638674f, 27.2838383f); }
         GunObject = GetComponentInChildren<Gun>();
         if (GunObject == null) throw new UnityException("Could not find Gun in the children gameobjects of the player. Please add Gun Prefab inside of PlayerComponents");
         _playerComponentsTransform = transform.GetChild(0);

@@ -12,20 +12,23 @@ public class Tutorial : MonoBehaviour
     private float _otherT = 0; //timer for staying on screen
     private float _lastFrameSinT = -1; // value of the sinus of _t from previous frame
     private float _sinT = 0; //value of the sinus of _t in the current frame
+
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     private void OnTriggerEnter(Collider other)
     {
-        if (other.CompareTag("Player"))
+        if (other.CompareTag("Player") )
         {
             _started = true;
+          
             _t = 0;
             Image.sprite = TutorialImage;
+            GetComponent<Collider>().enabled = false;
         }
     }
 
      void Update()
     {
-        if (!_started) return;
+        if (!_started ) return;
         _sinT = Mathf.Sin(_t);
         
 
@@ -42,7 +45,7 @@ public class Tutorial : MonoBehaviour
             _t += Time.deltaTime;
         }
 
-        if (_t > 4f) {_started = false; Image.sprite = null; Image.color = new Color(1, 1, 1, 0); Destroy(gameObject); }
+        if (_t > 4f) {  _started = false; Image.sprite = null; Image.color = new Color(1, 1, 1, 0); Destroy(gameObject,20f); }
     }
     void LateUpdate()
     {

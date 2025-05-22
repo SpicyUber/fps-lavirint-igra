@@ -35,6 +35,8 @@ public class Explosion : MonoBehaviour
             Destroy(gameObject);
         }
     }
+
+
    
     public void Explode() {
 
@@ -51,7 +53,8 @@ public class Explosion : MonoBehaviour
             if (collider.GetComponent<KnockbackComponent>() != null)
             {
                 knockbackComps[currentCollider] = collider.GetComponent<KnockbackComponent>();
-               
+
+                if (collider.gameObject.GetComponent<Davy>() != null) { }else
                 knockbackComps[currentCollider].CreateExplosion(transform.position, knockForce, 25);
 
             }
@@ -64,8 +67,11 @@ public class Explosion : MonoBehaviour
             currentCollider++;
             if (collider.GetComponent<HealthComponent>() != null)
             {
+
                 healthComps[currentCollider] = collider.GetComponent<HealthComponent>();
-                healthComps[currentCollider].TakeDamage(40f);
+                if (collider.gameObject.GetComponent<Davy>() != null && collider.gameObject.GetComponent<Davy>().ShieldComponent.shieldCollider.enabled) { collider.gameObject.GetComponent<Davy>().ShieldComponent.BlockFunction(); }
+                else if (collider.gameObject.GetComponent<Heart>()) { } else
+                    healthComps[currentCollider].TakeDamage(40f);
             }
         }
 

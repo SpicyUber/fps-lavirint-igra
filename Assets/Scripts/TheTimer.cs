@@ -1,4 +1,5 @@
 using System.Collections;
+using Unity.VisualScripting;
 using UnityEngine;
 using static Unity.VisualScripting.Member;
 
@@ -15,6 +16,9 @@ public class TheTimer : MonoBehaviour
     private Vector3 originalScale;
     public RectTransform TimerPanel;
     public AudioSource DrownSound;
+    private float _t=0;
+    public float WaterRockWidth;
+    private float _startZ,_startX,_startY;
     public void AddTime(float time)
     {
         if (_flooding) return;
@@ -56,7 +60,10 @@ public class TheTimer : MonoBehaviour
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-         
+        _startZ = transform.position.z;
+        _startX = transform.position.x;
+        _startY = transform.position.y;
+        _t = 0;
         originalScale = TimerPanel.localScale;
         _source = GetComponent<AudioSource>();
         
@@ -70,12 +77,20 @@ public class TheTimer : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+       
         if ((CurrentTime > 5 || CurrentTime < 0) && _source.isPlaying) _source.Stop();
         if (_flooding) return;
-
+        RockWater();
     if(CurrentTime <= 5 && CurrentTime >=0 && !_source.isPlaying) { _source.Play();  }
         CurrentTime -= Time.deltaTime;
         if (CurrentTime <= 0f) Flood();
+        _t += Time.deltaTime;
+    }
+
+    public void RockWater()
+    {
+        Water.transform.position = new Vector3(_startX, Water.transform.position.y, _startZ + Mathf.Sin(_t/4)* WaterRockWidth);
+
     }
     void Flood()
     { _flooding = true;

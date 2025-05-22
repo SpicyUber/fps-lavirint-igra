@@ -29,7 +29,7 @@ public class Tentacle : MonoBehaviour
     }
 
     public void Spawn() {
-        StartCoroutine(SpawnCoroutine(Random.Range(0.1f,0.5f)));
+        StartCoroutine(SpawnCoroutine(Random.Range(0.1f,1.1f)));
 
         
     }
@@ -59,7 +59,7 @@ public class Tentacle : MonoBehaviour
 
     IEnumerator FakeDespawnCoroutine()
     {
-        yield return new WaitForSeconds(1f);
+        yield return new WaitForSeconds(2f);
         _renderer.enabled = false;
       
     }

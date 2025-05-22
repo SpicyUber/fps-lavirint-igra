@@ -89,7 +89,19 @@ MonoBehaviour:
   ShieldComponent: {fileID: 4968645168794239858}
   Hearts: []
   HeartIndex: 0
+  brojac: 0
   Tentacles: []
+  HpBar: {fileID: 0}
+  GhostMaterial: {fileID: 0}
+  Spawners: []
+  Particles: {fileID: 0}
+  AbilityInterval: 10
+  SpawnEnemiesSFX1: {fileID: 0}
+  SpawnEnemieSFX2: {fileID: 0}
+  ThrowBoatSFX: {fileID: 0}
+  SpellSFX: {fileID: 0}
+  TeleportSFX1: {fileID: 0}
+  TeleportSFX2: {fileID: 0}
 --- !u!54 &8815979954265904480
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -485,6 +497,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 6133314531832449590}
     m_Modifications:
+    - target: {fileID: 1036377465440858048, guid: b7f4baac3a35a9f41bf8114b9fc00582, type: 3}
+      propertyPath: damage
+      value: 75
+      objectReference: {fileID: 0}
     - target: {fileID: 1640531164235992491, guid: b7f4baac3a35a9f41bf8114b9fc00582, type: 3}
       propertyPath: m_Name
       value: DavyClaws

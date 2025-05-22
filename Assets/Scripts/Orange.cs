@@ -39,7 +39,7 @@ public class Orange : MonoBehaviour
         if (isCollected) return;
 
         HealthComponent health = other.GetComponent<HealthComponent>();
-        if (health != null)
+        if (health != null && other.CompareTag("Player"))
         {
             health.TakeDamage(-50); // Healing effect
             PlayPickupSound();

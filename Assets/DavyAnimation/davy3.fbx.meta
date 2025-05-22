@@ -3,7 +3,87 @@ guid: a30be99539de5734aad36e5553ffbf0a
 ModelImporter:
   serializedVersion: 22200
   internalIDToNameTable: []
-  externalObjects: {}
+  externalObjects:
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Material.002
+    second: {fileID: 2100000, guid: 55cb5fc58b644394e940e9eeb5817f85, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Material.004
+    second: {fileID: 2100000, guid: da4173cb23a7bdc47a5ff705e0c02d10, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Material.005
+    second: {fileID: 2100000, guid: 5a1fdb372c83a5e49a935ed3ca8b4473, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: base
+    second: {fileID: 2100000, guid: 2c262e143e9e3b04da62cf6904b7000a, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: base darker
+    second: {fileID: 2100000, guid: 772eecc17794f0240ae453b1859c069f, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: base lighter
+    second: {fileID: 2100000, guid: f879a2cbb5e48564da1b1e8faa38a9ca, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: belt
+    second: {fileID: 2100000, guid: af5de91bb5758aa4f8f670e9079dd130, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: braon
+    second: {fileID: 2100000, guid: 2a249a46077611e488cef68497f2fe5e, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: braon shade
+    second: {fileID: 2100000, guid: fc0ec3f98b6316a4eab6c463e6f0afc6, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: gold
+    second: {fileID: 2100000, guid: f46acb8b2bc00874badd7083e4a89eed, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: kapa
+    second: {fileID: 2100000, guid: 108ded75605f22d48a2cd0acc7ba3169, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: kapa dark
+    second: {fileID: 2100000, guid: 9501731675d8bf3428c4ac8c25cbba3f, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: kapa light
+    second: {fileID: 2100000, guid: 1a2ce550b23d13a429ee1371efdbd68b, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: kapa shade
+    second: {fileID: 2100000, guid: 0ee951325ec716d4bbd0084ed31b8e24, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: red details
+    second: {fileID: 2100000, guid: 673afcdc324f531479ce3034d9d9818e, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: shirt shade
+    second: {fileID: 2100000, guid: faf6b918812349d4abf9338dbdd88aa2, type: 2}
   materials:
     materialImportMode: 2
     materialName: 0
@@ -22,7 +102,7 @@ ModelImporter:
     animationDoRetargetingWarnings: 0
     importAnimatedCustomProperties: 0
     importConstraints: 0
-    animationCompression: 1
+    animationCompression: 0
     animationRotationError: 0.5
     animationPositionError: 0.5
     animationScaleError: 0.5

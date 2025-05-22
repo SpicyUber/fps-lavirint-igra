@@ -25,7 +25,7 @@ public class Enemy : MonoBehaviour
     public EnemyState CurrentState = EnemyState.IDLE;
 
     private HealthComponent _health;
-    private AudioSource audioSource;
+    protected AudioSource audioSource;
 
     public void Start()
     {
@@ -220,7 +220,7 @@ public class Enemy : MonoBehaviour
                 {
                     if (Agent.isActiveAndEnabled)
                         Agent.isStopped = false;
-                    
+                    Animator.ResetTrigger("KNEEL");
                     Animator.SetTrigger("CHASE");
                   //  Debug.Log("Animacija: CHASE");
                 }
@@ -242,6 +242,12 @@ public class Enemy : MonoBehaviour
                 transform.LookAt(Player.transform,transform.up);
                
                 break;
+                case EnemyState.KNEEL:
+                CurrentState = EnemyState.KNEEL;
+                Animator.ResetTrigger("IDLE");
+                Animator.SetTrigger("KNEEL");
+             if(Agent.isActiveAndEnabled ) Agent.isStopped = true;
+                break;
         }
     }
     IEnumerator WaitOneFrameThenDeathAnimation()
@@ -253,7 +259,7 @@ public class Enemy : MonoBehaviour
     IEnumerator AttackRoutine()
     {
         //ovde je falio uslov za DEAD. Takodje svi ovi uslovi se moraju ponavljati posle yield return-a
-        if (CurrentState == EnemyState.WINDUP || CurrentState == EnemyState.WINDDOWN || CurrentState == EnemyState.STUNNED || CurrentState == EnemyState.DEAD)
+        if (CurrentState == EnemyState.WINDUP || CurrentState == EnemyState.KNEEL || CurrentState == EnemyState.WINDDOWN || CurrentState == EnemyState.STUNNED || CurrentState == EnemyState.DEAD)
             yield break;
 
         TransitionTo(EnemyState.WINDUP);
@@ -261,7 +267,7 @@ public class Enemy : MonoBehaviour
         Animator.SetTrigger("WINDUP");
 
         yield return new WaitForSeconds(WeaponObject.GetWindUp()); // Windup trajanje
-        if (CurrentState == EnemyState.WINDDOWN || CurrentState == EnemyState.STUNNED || CurrentState == EnemyState.DEAD)
+        if (CurrentState == EnemyState.WINDDOWN || CurrentState == EnemyState.KNEEL ||  CurrentState == EnemyState.STUNNED || CurrentState == EnemyState.DEAD)
             yield break;
         if (WeaponObject != null)
         {
@@ -277,7 +283,7 @@ public class Enemy : MonoBehaviour
         Animator.SetTrigger("WINDDOWN");
 
         yield return new WaitForSeconds(WeaponObject.GetCooldown()); // cooldown
-        if (CurrentState == EnemyState.WINDUP || CurrentState == EnemyState.STUNNED || CurrentState == EnemyState.DEAD)
+        if (CurrentState == EnemyState.WINDUP ||  CurrentState == EnemyState.STUNNED || CurrentState == EnemyState.DEAD || CurrentState == EnemyState.KNEEL)
             yield break;
         if (Agent.isActiveAndEnabled) Agent.isStopped = false;
         TransitionTo(EnemyState.CHASE);
@@ -310,6 +316,9 @@ public class Enemy : MonoBehaviour
         Animator.SetTrigger("STUNNED");
         yield return new WaitForSeconds(1f);
         if (Agent.isActiveAndEnabled) Agent.isStopped = false;
+
+        if (this.GetType().Equals(typeof(Davy))) { TransitionTo(EnemyState.KNEEL); }
+        else
         TransitionTo(EnemyState.CHASE);
     }
 
@@ -318,7 +327,7 @@ public class Enemy : MonoBehaviour
         TransitionTo(EnemyState.DEAD);
         FindAnyObjectByType<TheTimer>().AddTime(4 *level);
         transform.LookAt(Player.transform, transform.up);
-        Destroy(gameObject,2f);
+        if (this.GetType().Equals(typeof(Davy))) { } else Destroy(gameObject,2f);
     }
 
     public void PlayHurtSound()

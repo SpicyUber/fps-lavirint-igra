@@ -23,4 +23,9 @@ public class InputField : MonoBehaviour
         }
 
     }
+
+    public void Start()
+    {
+        PlayerPrefs.SetInt("Checkpoint", 0);
+    }
 }

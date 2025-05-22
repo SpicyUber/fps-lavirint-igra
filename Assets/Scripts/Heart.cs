@@ -69,6 +69,8 @@ public class Heart : MonoBehaviour
             audioSource.Play();
         }
 
+        FindAnyObjectByType<TheTimer>().AddTime(15f);
+
         // Sakrij mesh i collider
         if (heartMesh != null)
            heartMesh.enabled = false;
@@ -76,8 +78,9 @@ public class Heart : MonoBehaviour
         if (heartCollider != null)
             heartCollider.enabled = false;
         Debug.Log("Heart exploded!");
+        
         StartCoroutine(Earthquake());
-        OnHeartDestroyed.Invoke(); // Invoke the event if there are any listeners
+          OnHeartDestroyed.Invoke(); // Invoke the event if there are any listeners 
 
     }
     IEnumerator Earthquake()
