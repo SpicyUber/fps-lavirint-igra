@@ -110,7 +110,7 @@ GameObject:
   - component: {fileID: 1428517830008032370}
   - component: {fileID: 4335952249933202242}
   - component: {fileID: 4566659472921051226}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: Tentacle_V1 1
   m_TagString: Enemy
   m_Icon: {fileID: 0}
@@ -219,6 +219,7 @@ MonoBehaviour:
   Particles: {fileID: 7506956114384385100}
   AudioSource: {fileID: 4566659472921051226}
   Animator: {fileID: 2307567788905658314}
+  _collider: {fileID: 0}
 --- !u!65 &4335952249933202242
 BoxCollider:
   m_ObjectHideFlags: 0

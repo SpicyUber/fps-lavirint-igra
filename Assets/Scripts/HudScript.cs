@@ -1,9 +1,10 @@
-using UnityEngine;
+﻿using UnityEngine;
 using Unity.Cinemachine;
 using UnityEngine.SceneManagement;
 using System.Collections;
 using TMPro;
 using UnityEngine.UI;
+using static Unity.Cinemachine.IInputAxisOwner.AxisDescriptor;
 
 public class HudScript : MonoBehaviour
 {
@@ -18,12 +19,14 @@ public class HudScript : MonoBehaviour
     [Header("You Died")]
     public GameObject youDiedPanel;
     public AudioListener audioListener;
-    
+    private bool _hint=false;
+    public TextMeshProUGUI TauntText;
     public CinemachineImpulseSource explosionImpulseSource;
     public CinemachineImpulseSource recoilImpulseSource;
-
+    public GameObject HintPanel;
     private bool _died = false;
-
+    public TextMeshProUGUI DeadMessage;
+    public AudioClip Beep, Select;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -110,13 +113,45 @@ public class HudScript : MonoBehaviour
 
         deathAudio.Play();
 
-        
-        StartCoroutine(RestartStage());
+        PlayerPrefs.SetInt("Death", PlayerPrefs.GetInt("Death")+1);
+        int deathCount = PlayerPrefs.GetInt("Death");
+        int hintCount = PlayerPrefs.GetInt("Hint");
+
+        if ((hintCount<1 && deathCount>3) || (hintCount < 2 && deathCount > 7)) { DisplayHint(); } else {
+            DeadMessage.text = "Mrtav si";
+        StartCoroutine(RestartStage(4f));
+        }
+    }
+    private void DisplayHint() {
+        Cursor.visible = true;
+        foreach(Enemy enemy in FindObjectsByType<Enemy>(0)) { if(enemy!=null && enemy.gameObject!=null) enemy.gameObject.SetActive(false); }
+        DeadMessage.text = ""; HintPanel.SetActive(true); string message = (PlayerPrefs.GetInt("Hint") == 0)
+    ? "DEŠAVA SE I NAJBoLJIMA, IAKo VI To oČIGLEDNo NISTE."
+    : "JEL SVE oK TEBRICE?"; TauntText.text = $"UMRLI STE {PlayerPrefs.GetInt("Death")} PUTA.\n{message}\nŽELIŠ LI DA TI oLAKŠAMo IGRICU?"; }
+
+    public void Hover()
+    {
+        GetComponent<AudioSource>().PlayOneShot(Beep);
+    }
+    public void RestartButton()
+    {
+        if (_hint) return;
+        _hint = true;
+        GetComponent<AudioSource>().PlayOneShot(Select);
+        StartCoroutine(RestartStage(1f));
     }
 
-    IEnumerator RestartStage()
+    public void RestartWithHintButton()
     {
-        yield return new WaitForSeconds(4f);
+        if (_hint) return;
+        _hint = true;
+        PlayerPrefs.SetInt("Hint", PlayerPrefs.GetInt("Hint")  + 1);
+        GetComponent<AudioSource>().PlayOneShot(Select);
+        StartCoroutine(RestartStage(1f));
+    }
+    IEnumerator RestartStage(float delay)
+    {
+        yield return new WaitForSeconds(delay);
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
        
     }

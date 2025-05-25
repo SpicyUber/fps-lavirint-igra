@@ -26,8 +26,10 @@ public class Davy : Enemy
     private bool _kneelQueueUp=false;
     private bool _victory = false;
     private float _winningTime=1f;
+    private float _startT;
     public AudioSource Music;
     public TextMeshProUGUI VictoryText;
+    private bool _instakill = true;
    
     // Start is called once before the first execution of Update after the MonoBehaviour is created
 
@@ -117,7 +119,8 @@ public class Davy : Enemy
         Spawners = FindObjectsByType<EnemySpawner>(0);
         _matArray = GetComponentInChildren<SkinnedMeshRenderer>().materials;
         // SpawnEnemies();
-      //  Teleport();
+        //  Teleport();
+        NerfDavy();
         HpBar.SetActive(true);
         for (int i = 0; i < Hearts.Length; i++)
         {
@@ -129,6 +132,14 @@ public class Davy : Enemy
         ActivateNextHeart();
 
     }
+
+    private void NerfDavy()
+    {
+        if (PlayerPrefs.GetInt("Hint") > 0) { GetComponent<HealthComponent>().MaxHealth = Mathf.Clamp(GetComponent<HealthComponent>().MaxHealth - 150f * PlayerPrefs.GetInt("Hint"), 25f, int.MaxValue); GetComponent<HealthComponent>().CurrentHealth = GetComponent<HealthComponent>().MaxHealth; }
+        AbilityInterval = AbilityInterval + PlayerPrefs.GetInt("Hint") * 5f;
+        if (PlayerPrefs.GetInt("Hint") > 1) { _instakill = false; }
+    }
+
     public void OnHeartDestroyed(int index)
     {
         Debug.Log("Davy: Srce " + index + " uništeno.");
@@ -184,12 +195,18 @@ public class Davy : Enemy
     {
         FindAnyObjectByType<TheTimer>().CurrentTime = _winningTime;
         FindAnyObjectByType<HudScript>().ExplosionCameraShake(0.075f);
-        if (_t < 5f)
-            Victory.color = new Color(1, 1, 1, _t / 5f);
+        if (_t < _startT + 5f)
+            Victory.color = new Color(1, 1, 1, (_t-_startT) / (5f));
+        else if(_t<0f) { Victory.color = new Color(1, 1, 1, 1);
+            VictoryText.text = $"Iskoristili ste pomoĆ.  \r\n\r\n\r\nVreme je za naplatu. \r\novo je ekran koji traći vreme.\r\n Možete koristiti sledećih {Mathf.FloorToInt(Mathf.Abs(_t))} sekundi za razmišljanje. \r\nRazmislite zašto ste toliko loši da vam je trebala pomoć.\r\n\r\n\r\nhahahahahahaha\r\n";
+
+
+        }
         else
         {
             Victory.color = new Color(1, 1, 1, 1);
             VictoryText.text = "Hrabra posado, avantura vam se bliži kraju.  \r\n\r\n\r\nPred vama je novi izazov, pravi piratski. \r\nPRAVI PIRATI NE ZNAJU ZA SRAMotu.\r\nPotrebno je koračati oronulim putanjama kalemegdana, pretražiti svaki kutak, proviriti kroz najzapušteniju kapiju u potrazi za strancem.\r\nstranac mora snimiti glasovnu poruku u kojoj na svom maternjem jeziku govori...\r\n\r\n\r\n<i>Davy Davy eggs and gravy, come to me and the beating will be heavy.</i>\r\n";
+        
         }
 
         if (_t > 60f) { SceneManager.LoadScene(0); }
@@ -227,7 +244,7 @@ public class Davy : Enemy
                     }
 
                 }
-                else if (health.CurrentHealth / health.MaxHealth > 0.25)
+                else if ((health.CurrentHealth / health.MaxHealth > 0.33) || !_instakill)
                 {
                     int num = Random.Range(1, 4);
                     switch (num)
@@ -331,7 +348,8 @@ public class Davy : Enemy
     public void DavyDeath()
     {
         _victory = true;
-        _t = 0;
+        _startT = 0 - 60 * PlayerPrefs.GetInt("Hint");
+        _t = _startT;
         Music.Stop();
         audioSource.PlayOneShot(DavyDeathSFX);
         _winningTime = FindAnyObjectByType<TheTimer>().CurrentTime;

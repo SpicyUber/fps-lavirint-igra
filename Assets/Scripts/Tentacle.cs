@@ -19,7 +19,15 @@ public class Tentacle : MonoBehaviour
         _renderer= GetComponentInChildren<SkinnedMeshRenderer>();
         _collider= GetComponent<Collider>();
         AudioSource.volume = 0.4f;
+        ApplyHintDebuff();
         FakeDespawn(true);
+
+    }
+
+    private void ApplyHintDebuff()
+    {
+        if (PlayerPrefs.GetInt("Hint") > 0) { GetComponent<HealthComponent>().MaxHealth = Mathf.Clamp(GetComponent<HealthComponent>().MaxHealth - 25f * PlayerPrefs.GetInt("Hint"), 25f, int.MaxValue); GetComponent<HealthComponent>().CurrentHealth = GetComponent<HealthComponent>().MaxHealth; }
+
     }
 
     // Update is called once per frame

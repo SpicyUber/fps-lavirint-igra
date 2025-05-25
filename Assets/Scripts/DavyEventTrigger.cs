@@ -19,7 +19,7 @@ public class DavyEventTrigger : MonoBehaviour
             return;
         }
         Wind.Play();
-        PlayerPrefs.SetInt("Checkpoint", 1);
+        PlayerPrefs.SetInt("Checkpoint", 2);
         _didFire = true;
         StartCoroutine(SkyRoutine(3f, SkyRenderer.materials[0]));
         MusicAudioSource.Stop();

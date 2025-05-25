@@ -19,17 +19,21 @@ public class TheTimer : MonoBehaviour
     private float _t=0;
     public float WaterRockWidth;
     private float _startZ,_startX,_startY;
+    private Coroutine _coroutine;
     public void AddTime(float time)
     {
+        time = time + PlayerPrefs.GetInt("Hint")*0.5f*time;
         if (_flooding) return;
-        StartCoroutine(TimeAnimation());
+
+        if (_coroutine != null) StopCoroutine(_coroutine);
+       _coroutine = StartCoroutine(TimeAnimation());
        
         CurrentTime += time;
         SpriteAnimation.Play(CurrentTime <= 5f);
     }
     private IEnumerator TimeAnimation()
     {
-        Vector3 originalScale = TimerPanel.localScale;
+        
         Vector3 targetScale = originalScale * _stretchFactor;
 
         
@@ -71,7 +75,8 @@ public class TheTimer : MonoBehaviour
 
     private void Awake()
     {
-        CurrentTime = StartTime;
+        CurrentTime = StartTime + PlayerPrefs.GetInt("Hint")* 0.5f * StartTime;
+
     }
 
     // Update is called once per frame

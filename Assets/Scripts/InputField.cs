@@ -31,6 +31,9 @@ public class InputField : MonoBehaviour
 
     public void Start()
     {
+        Cursor.visible = true;
+        PlayerPrefs.SetInt("Hint",0);
+        PlayerPrefs.SetInt("Death", 0);
         if (PlayerPrefs.GetString("unity.player_session_count") == "1")
         {
             PlayerPrefs.SetFloat("MouseSensitivity", 0.5f);

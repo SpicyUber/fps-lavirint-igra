@@ -5,7 +5,7 @@ using UnityEngine;
 public class EnemySpawner : MonoBehaviour
 {
     public GameObject[] Enemies;
-    
+    public int DespawnAtHintNumber = 0;
     private Enemy[] _enemies; //_enemy 0 is sword enemy, enemy 1 is gun enemy
    
     private bool[] _markForDeaths;
@@ -30,7 +30,7 @@ public class EnemySpawner : MonoBehaviour
     }
     public void Spawn(int index)
     {
-        if (index < 0 || index > 1) return;
+        if (index < 0 || index > 1 || (DespawnAtHintNumber>0 && DespawnAtHintNumber<= PlayerPrefs.GetInt("Hint"))) return;
 
         if (_enemies[index] == null)
         {
@@ -61,7 +61,7 @@ public class EnemySpawner : MonoBehaviour
 
     public void Kill(int index)
     {
-        if (index < 0 || index > 1) return;
+        if (index < 0 || index > 1 || (DespawnAtHintNumber > 0 && DespawnAtHintNumber <= PlayerPrefs.GetInt("Hint"))) return;
         if (_isSpawnings[index]) { _markForDeaths[index] = true; return; }
         if (_enemies[index] != null) { _enemies[index].Death(); _enemies[index] = null; _markForDeaths[index] = false; }
     }

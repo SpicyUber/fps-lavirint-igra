@@ -14,7 +14,7 @@ public class Enemy : MonoBehaviour
     //public float AttackRange = 100f;
     public int Damage = 10;
     public AudioClip hurtClip;
-
+    public int DespawnAtHintNumber = 0;
 
     public NavMeshAgent Agent;
     public PlayerScript Player;
@@ -39,6 +39,8 @@ public class Enemy : MonoBehaviour
         if (this.GetType() != typeof(Davy))
         {
             SetLevel();
+            ApplyHintDebuff();
+            DespawnIfHintIsUsed();
         }
         else
         {
@@ -86,6 +88,20 @@ public class Enemy : MonoBehaviour
             TransitionTo(EnemyState.IDLE);
         // Animator.SetTrigger("IDLE");
     }
+
+    private void ApplyHintDebuff()
+    {
+        if (PlayerPrefs.GetInt("Hint") > 0) { GetComponent<HealthComponent>().MaxHealth = Mathf.Clamp( GetComponent<HealthComponent>().MaxHealth - 25f * PlayerPrefs.GetInt("Hint"),25f,int.MaxValue); GetComponent<HealthComponent>().CurrentHealth = GetComponent<HealthComponent>().MaxHealth; }
+
+    }
+
+    public void DespawnIfHintIsUsed()
+    {
+        if (DespawnAtHintNumber <= 0) return;
+
+        if (PlayerPrefs.GetInt("Hint") >= DespawnAtHintNumber) gameObject.SetActive(false);  
+    }
+
     public void SetLevel()
     {
         if (level < 1 || level > 3) level = 1;

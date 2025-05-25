@@ -41,7 +41,8 @@ public class Orange : MonoBehaviour
         HealthComponent health = other.GetComponent<HealthComponent>();
         if (health != null && other.CompareTag("Player"))
         {
-            health.TakeDamage(-50); // Healing effect
+            health.TakeDamage(-50 - PlayerPrefs.GetInt("Hint")*25); // Healing effect
+            if (PlayerPrefs.GetInt("Hint") > 0) { FindAnyObjectByType<TheTimer>().AddTime(5 * PlayerPrefs.GetInt("Hint")); }
             PlayPickupSound();
             GetComponent<MeshRenderer>().enabled = false;
            

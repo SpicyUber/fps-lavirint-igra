@@ -21,11 +21,11 @@ public class PlayerScript : MonoBehaviour
     private Transform _playerComponentsTransform;
     private Vector3 _startCameraPosition;
     private float _t = 0;
+    private bool _dead = false;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-        if (PlayerPrefs.GetInt("Checkpoint") != 0) { transform.position = new Vector3(-126.145065f, 2.77638674f, 27.2838383f); }
-        GunObject = GetComponentInChildren<Gun>();
+         GunObject = GetComponentInChildren<Gun>();
         if (GunObject == null) throw new UnityException("Could not find Gun in the children gameobjects of the player. Please add Gun Prefab inside of PlayerComponents");
         _playerComponentsTransform = transform.GetChild(0);
         _startCameraPosition = CameraPositionTransform.localPosition;
@@ -34,6 +34,10 @@ public class PlayerScript : MonoBehaviour
         MouseSensitivity = PlayerPrefs.GetFloat("MouseSensitivity") * 50f;
         if (MouseSensitivity < 1f) MouseSensitivity = 1f;
         Cursor.visible = false;
+        if (PlayerPrefs.GetInt("Hint") > 0) { GetComponent<HealthComponent>().MaxHealth = GetComponent<HealthComponent>().MaxHealth + 75f * PlayerPrefs.GetInt("Hint"); GetComponent<HealthComponent>().CurrentHealth = GetComponent<HealthComponent>().MaxHealth;  }
+        if (PlayerPrefs.GetInt("Checkpoint") == 2) { transform.position = new Vector3(-126.145065f, 2.77638674f, 27.2838383f); }
+        else if (PlayerPrefs.GetInt("Checkpoint") == 1) { transform.position = new Vector3(-282.71994f, -0.51327306f, 171.500427f);  }
+
     }
 
     // Update is called once per frame
@@ -72,7 +76,11 @@ public class PlayerScript : MonoBehaviour
         _pitch -= _mouseDir.y * MouseSensitivity / 2 * Time.deltaTime;
         _pitch = Mathf.Clamp(_pitch, -50f, 50f);
 
+       
         _playerComponentsTransform.rotation = Quaternion.Euler(_pitch, _yaw, 0f);
+
+        
+
     }
     private void UpdateMovement() {
         Vector3 gravity = (!Physics.Raycast(transform.position,Vector3.down,0.5f))? new Vector3(0, -5, 0) : Vector3.zero; 
@@ -81,6 +89,10 @@ public class PlayerScript : MonoBehaviour
         PlayerRB.AddForce((temp).normalized * MoveSpeed+gravity, ForceMode.Impulse);
     }
     private void UpdateCamera() {
+
+       
+        
+
         Camera.transform.position = CameraPositionTransform.position;
         Camera.transform.rotation = CameraPositionTransform.rotation;
     }
@@ -88,9 +100,9 @@ public class PlayerScript : MonoBehaviour
     public void OnLook(InputValue value) {_mouseDir = value.Get<Vector2>(); 
          
     }
-    public void OnAttack(InputValue value) { if (GunObject.UseAttack()) { UpdateCamera(); GetComponentInChildren<Animator>().SetTrigger("Shoot"); RecoilCameraShake(); } }
+    public void OnAttack(InputValue value) { if (!_dead && GunObject.UseAttack()) { UpdateCamera(); GetComponentInChildren<Animator>().SetTrigger("Shoot"); RecoilCameraShake(); } }
     
-    public void Death() { GetComponent<Collider>().enabled = false; GetComponent<AudioSource>().Play(); if (Hud == null) return; Hud.YouDied(); }
+    public void Death() { GetComponent<Collider>().enabled = false; _dead = true; GetComponent<AudioSource>().Play(); if (Hud == null) return; Hud.YouDied(); }
 
     public void RecoilCameraShake() { if (Hud == null) return; Hud.RecoilCameraShake(1f); }
 
