@@ -14,7 +14,7 @@ public class PlayerScript : MonoBehaviour
     public AudioSource Walking;
     public float MouseSensitivity;
     public float MoveSpeed;
-
+    public GameObject PauseMenu;
     private Vector2 _moveDir;
     private Vector2 _mouseDir;
     private float _pitch, _yaw;
@@ -43,7 +43,11 @@ public class PlayerScript : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-       
+        if (PauseMenu.activeInHierarchy)
+        {
+          
+            Cursor.visible = true;
+        }
         
     }
 
@@ -100,11 +104,23 @@ public class PlayerScript : MonoBehaviour
     public void OnLook(InputValue value) {_mouseDir = value.Get<Vector2>(); 
          
     }
-    public void OnAttack(InputValue value) { if (!_dead && GunObject.UseAttack()) { UpdateCamera(); GetComponentInChildren<Animator>().SetTrigger("Shoot"); RecoilCameraShake(); } }
+    public void OnAttack(InputValue value) { if (PauseMenu.activeInHierarchy) return; if (!_dead && GunObject.UseAttack()) { UpdateCamera(); GetComponentInChildren<Animator>().SetTrigger("Shoot"); RecoilCameraShake(); } }
     
     public void Death() { GetComponent<Collider>().enabled = false; _dead = true; GetComponent<AudioSource>().Play(); if (Hud == null) return; Hud.YouDied(); }
 
     public void RecoilCameraShake() { if (Hud == null) return; Hud.RecoilCameraShake(1f); }
 
     public void PlayHurtSound() { GetComponent<AudioSource>().Play(); }
+
+    public void OnPause()
+    { if (PauseMenu == null || _dead || FindAnyObjectByType<TheTimer>().CurrentTime<=0) return;
+
+        PauseMenu.SetActive(!PauseMenu.activeInHierarchy);
+
+        Time.timeScale = (!PauseMenu.activeInHierarchy) ? 1f:0f;
+
+        if (!PauseMenu.activeInHierarchy) { Cursor.visible = false; MouseSensitivity = PlayerPrefs.GetFloat("MouseSensitivity") * 50f; }
+
+
+    }
 }

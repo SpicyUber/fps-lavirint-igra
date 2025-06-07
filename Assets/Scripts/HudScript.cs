@@ -118,7 +118,7 @@ public class HudScript : MonoBehaviour
         int hintCount = PlayerPrefs.GetInt("Hint");
 
         if ((hintCount<1 && deathCount>3) || (hintCount < 2 && deathCount > 7)) { DisplayHint(); } else {
-            DeadMessage.text = "Mrtav si";
+            DeadMessage.text = "You Died";
         StartCoroutine(RestartStage(4f));
         }
     }
@@ -126,8 +126,8 @@ public class HudScript : MonoBehaviour
         Cursor.visible = true;
         foreach(Enemy enemy in FindObjectsByType<Enemy>(0)) { if(enemy!=null && enemy.gameObject!=null) enemy.gameObject.SetActive(false); }
         DeadMessage.text = ""; HintPanel.SetActive(true); string message = (PlayerPrefs.GetInt("Hint") == 0)
-    ? "DEŠAVA SE I NAJBoLJIMA, IAKo VI To oČIGLEDNo NISTE."
-    : "JEL SVE oK TEBRICE?"; TauntText.text = $"UMRLI STE {PlayerPrefs.GetInt("Death")} PUTA.\n{message}\nŽELIŠ LI DA TI oLAKŠAMo IGRICU?"; }
+    ? "HAPPENS To The BeSt of US, WHICH YoU CLEARLY ARENT."
+    : "You okay dude?"; TauntText.text = $"you've died {PlayerPrefs.GetInt("Death")} timeS.\n{message}\nwanna make the game eaSIER?"; }
 
     public void Hover()
     {

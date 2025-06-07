@@ -195,9 +195,10 @@ public class Davy : Enemy
     {
         FindAnyObjectByType<TheTimer>().CurrentTime = _winningTime;
         FindAnyObjectByType<HudScript>().ExplosionCameraShake(0.075f);
+        Time.timeScale = 1f;
         if (_t < _startT + 5f)
             Victory.color = new Color(1, 1, 1, (_t-_startT) / (5f));
-        else if(_t<0f) { Victory.color = new Color(1, 1, 1, 1);
+    /*added a false here so its removed for the itch io build*/    else if(_t<0f && false) { Victory.color = new Color(1, 1, 1, 1);
             VictoryText.text = $"Iskoristili ste pomoĆ.  \r\n\r\n\r\nVreme je za naplatu. \r\novo je ekran koji traći vreme.\r\n Možete koristiti sledećih {Mathf.FloorToInt(Mathf.Abs(_t))} sekundi za razmišljanje. \r\nRazmislite zašto ste toliko loši da vam je trebala pomoć.\r\n\r\n\r\nhahahahahahaha\r\n";
 
 
@@ -205,11 +206,12 @@ public class Davy : Enemy
         else
         {
             Victory.color = new Color(1, 1, 1, 1);
-            VictoryText.text = "Hrabra posado, avantura vam se bliži kraju.  \r\n\r\n\r\nPred vama je novi izazov, pravi piratski. \r\nPRAVI PIRATI NE ZNAJU ZA SRAMotu.\r\nPotrebno je koračati oronulim putanjama kalemegdana, pretražiti svaki kutak, proviriti kroz najzapušteniju kapiju u potrazi za strancem.\r\nstranac mora snimiti glasovnu poruku u kojoj na svom maternjem jeziku govori...\r\n\r\n\r\n<i>Davy Davy eggs and gravy, come to me and the beating will be heavy.</i>\r\n";
-        
+            //  VictoryText.text = "Hrabra posado, avantura vam se bliži kraju.  \r\n\r\n\r\nPred vama je novi izazov, pravi piratski. \r\nPRAVI PIRATI NE ZNAJU ZA SRAMotu.\r\nPotrebno je koračati oronulim putanjama kalemegdana, pretražiti svaki kutak, proviriti kroz najzapušteniju kapiju u potrazi za strancem.\r\nstranac mora snimiti glasovnu poruku u kojoj na svom maternjem jeziku govori...\r\n\r\n\r\n<i>Davy Davy eggs and gravy, come to me and the beating will be heavy.</i>\r\n";
+            VictoryText.text = "Congrats!\nDavy Jones has been defeated and victory has been achieved.\nReturning to menu in "+Mathf.FloorToInt(45f-_t)+"seconds.\n\nCREDITS:\nLead Programmer And Game Designer - Aleksandar Ilanković\nLevel Design - Aleksandar Ilanković\nPlayer Logic - Aleksandar Ilanković\nUI - Luka Milikić,Aleksandar Ilanković\nExplosion & Explosive Barrel Logic - Teodor Vicelarević\nWeapons Logic - Milan Davidović\nHealth & Knockback Systems - Aleksandar Ilanković \nEnemy AI - Luka Milikić \n Boss Fight Logic - Aleksandar Ilanković, Milan Davidović\nBoss Fight original Model - Danica Živković\nMusic Production - Aleksandar Ilanković\noriginal Compositions - Bobby Prince, Hans Zimmer\nAnimation - Aleksandar Ilanković";
         }
 
-        if (_t > 60f) { SceneManager.LoadScene(0); }
+        if (_t > 40f) { VictoryText.text = "\r\n\r\n\r\n\r\n\r\nSpecial THANKS To\r\n\r\n-Andrijana ČuČiloviĆ\r\n\r\n-Veljko DjuriĆ\r\n\r\n-MARKo DapČeviĆ\n\nReturning to menu in "+Mathf.FloorToInt(45f-_t)+" seconds.";  }
+        if (_t > 45f) { SceneManager.LoadScene(0); }
     }
     public void UseAbility()
     {
@@ -348,7 +350,8 @@ public class Davy : Enemy
     public void DavyDeath()
     {
         _victory = true;
-        _startT = 0 - 60 * PlayerPrefs.GetInt("Hint");
+        /*commented part of the line here so its removed for the itch io build*/
+        _startT = 0 /*- 60 * PlayerPrefs.GetInt("Hint")*/;
         _t = _startT;
         Music.Stop();
         audioSource.PlayOneShot(DavyDeathSFX);

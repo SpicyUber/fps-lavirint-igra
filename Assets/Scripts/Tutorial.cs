@@ -32,7 +32,7 @@ public class Tutorial : MonoBehaviour
         _sinT = Mathf.Sin(_t);
         
 
-        if (_sinT < _lastFrameSinT && _otherT<5f)
+        if (_sinT < _lastFrameSinT && _otherT<10f)
         {
             Image.color = new Color(1, 1, 1, 1);
 
