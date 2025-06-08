@@ -117,7 +117,7 @@ public class HudScript : MonoBehaviour
         int deathCount = PlayerPrefs.GetInt("Death");
         int hintCount = PlayerPrefs.GetInt("Hint");
 
-        if ((hintCount<1 && deathCount>3) || (hintCount < 2 && deathCount > 7)) { DisplayHint(); } else {
+        if ((hintCount<1 && deathCount>2) || (hintCount < 2 && deathCount > 5)) { DisplayHint(); } else {
             DeadMessage.text = "You Died";
         StartCoroutine(RestartStage(4f));
         }

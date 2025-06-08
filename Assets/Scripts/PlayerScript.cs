@@ -34,20 +34,17 @@ public class PlayerScript : MonoBehaviour
         MouseSensitivity = PlayerPrefs.GetFloat("MouseSensitivity") * 50f;
         if (MouseSensitivity < 1f) MouseSensitivity = 1f;
         Cursor.visible = false;
+        Cursor.lockState = CursorLockMode.Locked;
         if (PlayerPrefs.GetInt("Hint") > 0) { GetComponent<HealthComponent>().MaxHealth = GetComponent<HealthComponent>().MaxHealth + 75f * PlayerPrefs.GetInt("Hint"); GetComponent<HealthComponent>().CurrentHealth = GetComponent<HealthComponent>().MaxHealth;  }
-        if (PlayerPrefs.GetInt("Checkpoint") == 2) { transform.position = new Vector3(-126.145065f, 2.77638674f, 27.2838383f); }
-        else if (PlayerPrefs.GetInt("Checkpoint") == 1) { transform.position = new Vector3(-282.71994f, -0.51327306f, 171.500427f);  }
+        if (PlayerPrefs.GetInt("Checkpoint") == 2) { _pitch = -2.8f; _yaw = 67.2f; transform.position = new Vector3(-126.145065f, 2.77638674f, 27.2838383f); }
+        else if (PlayerPrefs.GetInt("Checkpoint") == 1) { _pitch = 4.8f; _yaw = 90; transform.position = new Vector3(-282.71994f, -0.51327306f, 171.500427f); } else { _pitch = 4.8f; _yaw = 90; }
 
     }
 
     // Update is called once per frame
     void Update()
     {
-        if (PauseMenu.activeInHierarchy)
-        {
-          
-            Cursor.visible = true;
-        }
+        
         
     }
 
@@ -106,7 +103,7 @@ public class PlayerScript : MonoBehaviour
     }
     public void OnAttack(InputValue value) { if (PauseMenu.activeInHierarchy) return; if (!_dead && GunObject.UseAttack()) { UpdateCamera(); GetComponentInChildren<Animator>().SetTrigger("Shoot"); RecoilCameraShake(); } }
     
-    public void Death() { GetComponent<Collider>().enabled = false; _dead = true; GetComponent<AudioSource>().Play(); if (Hud == null) return; Hud.YouDied(); }
+    public void Death() { GetComponent<Collider>().enabled = false; _dead = true; GetComponent<AudioSource>().Play(); if (Hud == null) return; Hud.YouDied(); Cursor.visible = true; Cursor.lockState = CursorLockMode.None; }
 
     public void RecoilCameraShake() { if (Hud == null) return; Hud.RecoilCameraShake(1f); }
 
@@ -119,7 +116,7 @@ public class PlayerScript : MonoBehaviour
 
         Time.timeScale = (!PauseMenu.activeInHierarchy) ? 1f:0f;
 
-        if (!PauseMenu.activeInHierarchy) { Cursor.visible = false; MouseSensitivity = PlayerPrefs.GetFloat("MouseSensitivity") * 50f; }
+        if (!PauseMenu.activeInHierarchy && !_dead) { Cursor.visible = false; Cursor.lockState = CursorLockMode.Locked; MouseSensitivity = PlayerPrefs.GetFloat("MouseSensitivity") * 50f; } else { Cursor.visible = true; Cursor.lockState = CursorLockMode.None; }
 
 
     }

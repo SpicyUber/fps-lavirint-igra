@@ -37,7 +37,7 @@ public class InputField : MonoBehaviour
     {
         UpdateSliders();
          
-       if(SceneManager.GetActiveScene().buildIndex==0) SceneManager.LoadSceneAsync("MainScene"); else { SceneManager.LoadSceneAsync(0); }
+       if(SceneManager.GetActiveScene().buildIndex==0) SceneManager.LoadSceneAsync("MainScene"); else { SceneManager.LoadSceneAsync(0); Time.timeScale = 1; }
         ActivateLoad();
     }
 
@@ -68,6 +68,11 @@ public class InputField : MonoBehaviour
     public void ActivateLoad() { PanelActivate(0); }
     public void ActivateTips() { PanelActivate(2); }
     public void ActivateSettings() { PanelActivate(3); }
+
+    public void ActivateExit()
+    {
+        Application.Quit();
+    }
     public void Start()
     {
         PanelActivate(-1);
@@ -77,18 +82,20 @@ public class InputField : MonoBehaviour
         if (PlayerPrefs.GetString("unity.player_session_count") == "1")
         {
             PlayerPrefs.SetFloat("MouseSensitivity", 0.5f);
-            PlayerPrefs.SetFloat("Volume", 0.5f);
+            
         }
+       
+        if (PlayerPrefs.GetFloat("Volume") == 0 && SceneManager.GetActiveScene().buildIndex==0) { PlayerPrefs.SetFloat("Volume", 0.33f); }
         VolumeSlider.value = PlayerPrefs.GetFloat("Volume");
         AudioListener.volume = PlayerPrefs.GetFloat("Volume");
         SensitivitySlider.value = PlayerPrefs.GetFloat("MouseSensitivity");
-        PlayerPrefs.SetInt("Checkpoint", 0);
+       if(SceneManager.GetActiveScene().buildIndex == 0) PlayerPrefs.SetInt("Checkpoint", 0);
     }
 
     private void Update()
     {
         if (cooldown > 0.5f && sfxFlag) { sfxFlag = false; cooldown = 0f; GetComponent<AudioSource>().PlayOneShot(VolumeClip);  }
-        if (cooldown < 0.5f) { cooldown += Time.deltaTime; } 
+        if (cooldown <= 0.5f) { cooldown += Time.deltaTime; } 
        
     }
 }

@@ -23381,6 +23381,14 @@ PrefabInstance:
       propertyPath: m_AnchorMax.y
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 8547497497074919967, guid: 6569869675e595e4698b2289ac8694cb, type: 3}
+      propertyPath: m_SizeDelta.x
+      value: 4000
+      objectReference: {fileID: 0}
+    - target: {fileID: 8547497497074919967, guid: 6569869675e595e4698b2289ac8694cb, type: 3}
+      propertyPath: m_SizeDelta.y
+      value: 4000
+      objectReference: {fileID: 0}
     - target: {fileID: 8563432504148220066, guid: 6569869675e595e4698b2289ac8694cb, type: 3}
       propertyPath: m_Name
       value: Pause
